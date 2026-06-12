@@ -1,14 +1,11 @@
 (function () {
-    if (sessionStorage.getItem('gokidzAdminAuthed') !== 'true') {
-        window.location.href = 'signup-admin.html';
-        return;
-    }
-
     const fallbackStorageKey = 'gokidzAdminDrafts';
     const teamCounts = { staff: 4, editor: 7, producer: 6, performer: 6 };
     const assetKeys = ['favicon', 'Logo', 'Images', 'Video', 'Background', 'media', 'image', 'characters', 'footerLogo'];
+    const supabaseClient = window.gokidzSupabaseClient?.();
+    const supabaseConfig = window.GOKIDZ_SUPABASE;
     let content = {};
-    let serverMode = true;
+    let contentMode = 'browser';
 
     function isAssetField(key) {
         return assetKeys.some((part) => key.toLowerCase().includes(part.toLowerCase()));
@@ -34,6 +31,20 @@
         return migrated;
     }
 
+    async function requireAuth() {
+        if (supabaseClient) {
+            const { data } = await supabaseClient.auth.getSession();
+            if (data.session) {
+                sessionStorage.setItem('gokidzAdminAuthed', 'true');
+                return true;
+            }
+        }
+
+        if (!supabaseClient && sessionStorage.getItem('gokidzAdminAuthed') === 'true') return true;
+        window.location.href = 'signup-admin.html';
+        return false;
+    }
+
     function createTeamRows() {
         Object.entries(teamCounts).forEach(([team, count]) => {
             const target = document.querySelector(`[data-team="${team}"]`);
@@ -57,24 +68,45 @@
     }
 
     async function loadContent() {
+        if (supabaseClient && supabaseConfig) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('site_content')
+                    .select('content')
+                    .eq('id', supabaseConfig.contentId)
+                    .maybeSingle();
+                if (error) throw error;
+                if (data?.content) {
+                    content = data.content;
+                    contentMode = 'supabase';
+                    showToast('Loaded online content from Supabase.');
+                    return;
+                }
+                contentMode = 'supabase';
+            } catch (error) {
+                showToast(`Supabase load failed: ${error.message}`);
+            }
+        }
+
         try {
             const response = await fetch('/api/content', { cache: 'no-store' });
             if (!response.ok) throw new Error('Server content unavailable');
             content = await response.json();
-            serverMode = true;
+            contentMode = 'local-server';
+            showToast('Loaded local admin server content.');
             return;
         } catch (error) {
-            serverMode = false;
+            // Continue to static fallback.
         }
 
         try {
             const staticResponse = await fetch('data/site-content.json', { cache: 'no-store' });
             if (!staticResponse.ok) throw new Error('Static content unavailable');
             content = await staticResponse.json();
-            showToast('Preview mode only. Use localhost:5600 for uploads and real saves.');
+            showToast(contentMode === 'supabase' ? 'No online content yet. Click Save Draft once to seed Supabase.' : 'Preview mode only.');
         } catch (error) {
             content = migrateFlatDraft(JSON.parse(localStorage.getItem(fallbackStorageKey) || '{}'));
-            showToast('Open this page through localhost:5600 to upload and save.');
+            showToast('No saved content found yet.');
         }
     }
 
@@ -94,19 +126,33 @@
 
     async function saveContent() {
         collectFields();
-        if (!serverMode) {
-            localStorage.setItem(fallbackStorageKey, JSON.stringify(content));
-            showToast('Draft saved in browser only. Start the admin server for real saves.');
+
+        if (contentMode === 'supabase' && supabaseClient && supabaseConfig) {
+            const { error } = await supabaseClient
+                .from('site_content')
+                .upsert({
+                    id: supabaseConfig.contentId,
+                    content,
+                    updated_at: new Date().toISOString()
+                });
+            if (error) throw error;
+            showToast('Saved online to Supabase.');
             return;
         }
 
-        const response = await fetch('/api/content', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(content)
-        });
-        if (!response.ok) throw new Error('Save failed');
-        showToast('Saved to data/site-content.json.');
+        if (contentMode === 'local-server') {
+            const response = await fetch('/api/content', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(content)
+            });
+            if (!response.ok) throw new Error('Save failed');
+            showToast('Saved to local data/site-content.json.');
+            return;
+        }
+
+        localStorage.setItem(fallbackStorageKey, JSON.stringify(content));
+        showToast('Draft saved in browser only. Supabase is not connected yet.');
     }
 
     function addUploadZones() {
@@ -203,26 +249,31 @@
             return;
         }
 
-        if (/\.(mp4|webm|mov|m4v)$/i.test(lower)) {
-            preview.innerHTML = `<video src="${path}" controls muted playsinline></video>`;
+        if (/\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(lower)) {
+            preview.innerHTML = `<video src="${path}" controls muted playsinline preload="metadata"></video><small class="preview-caption">Current video preview</small>`;
             return;
         }
 
-        if (/\.(png|jpe?g|gif|webp|svg|ico)$/i.test(lower)) {
-            preview.innerHTML = `<img src="${path}" alt="Current asset preview">`;
+        if (/\.(png|jpe?g|gif|webp|svg|ico)(\?.*)?$/i.test(lower)) {
+            preview.innerHTML = `<img src="${path}" alt="Current asset preview" onerror="this.closest('.asset-preview').innerHTML='<span>Preview file not found</span>'"><small class="preview-caption">Current image preview</small>`;
             return;
         }
 
         preview.innerHTML = `<span>${value}</span>`;
     }
 
+    function safeFileName(fileName) {
+        const dot = fileName.lastIndexOf('.');
+        const ext = dot >= 0 ? fileName.slice(dot).toLowerCase() : '';
+        const base = (dot >= 0 ? fileName.slice(0, dot) : fileName)
+            .replace(/[^a-z0-9_-]+/gi, '-')
+            .replace(/^-+|-+$/g, '')
+            .slice(0, 50) || 'upload';
+        return `${base}-${Date.now()}${ext}`;
+    }
+
     async function uploadFile(file, input, zone) {
         if (!file) return;
-        if (!serverMode) {
-            showToast('Uploads need this link: http://localhost:5600/admin-portal.html');
-            return;
-        }
-
         const originalZoneHtml = zone?.innerHTML;
         if (zone) {
             zone.disabled = true;
@@ -230,24 +281,35 @@
         }
 
         try {
-            const formData = new FormData();
-            formData.append('file', file);
-            const response = await fetch('/api/upload', { method: 'POST', body: formData });
-            const result = await response.json();
-            if (!response.ok || !result.ok) throw new Error(result.error || 'Upload failed');
+            if (contentMode === 'supabase' && supabaseClient && supabaseConfig) {
+                const filePath = `admin/${safeFileName(file.name)}`;
+                const { error } = await supabaseClient.storage
+                    .from(supabaseConfig.bucket)
+                    .upload(filePath, file, { upsert: true, cacheControl: '3600' });
+                if (error) throw error;
 
-            input.value = result.path;
-            input.dispatchEvent(new Event('input', { bubbles: true }));
-            collectFields();
+                const { data } = supabaseClient.storage.from(supabaseConfig.bucket).getPublicUrl(filePath);
+                input.value = data.publicUrl;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                await saveContent();
+                showToast('Uploaded and saved online.');
+                return;
+            }
 
-            const saveResponse = await fetch('/api/content', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(content)
-            });
-            if (!saveResponse.ok) throw new Error('Upload worked, but saving the new path failed');
+            if (contentMode === 'local-server') {
+                const formData = new FormData();
+                formData.append('file', file);
+                const response = await fetch('/api/upload', { method: 'POST', body: formData });
+                const result = await response.json();
+                if (!response.ok || !result.ok) throw new Error(result.error || 'Upload failed');
+                input.value = result.path;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                await saveContent();
+                showToast('Uploaded and saved locally.');
+                return;
+            }
 
-            showToast('Uploaded and saved. Refresh the page to see it live.');
+            throw new Error('Uploads need Supabase login or the local admin server.');
         } finally {
             if (zone) {
                 zone.disabled = false;
@@ -265,7 +327,7 @@
         }
         toast.textContent = text;
         toast.classList.add('active');
-        setTimeout(() => toast.classList.remove('active'), 2600);
+        setTimeout(() => toast.classList.remove('active'), 3200);
     }
 
     function setupNavState() {
@@ -284,6 +346,7 @@
         addUploadZones();
         addAssetPreviews();
         setupNavState();
+        if (!await requireAuth()) return;
         await loadContent();
         loadFields();
     }
@@ -291,11 +354,11 @@
     document.getElementById('save-all')?.addEventListener('click', () => {
         saveContent().catch((error) => showToast(error.message));
     });
-    document.getElementById('admin-logout')?.addEventListener('click', () => {
+    document.getElementById('admin-logout')?.addEventListener('click', async () => {
         sessionStorage.removeItem('gokidzAdminAuthed');
+        await supabaseClient?.auth.signOut();
         window.location.href = 'signup-admin.html';
     });
 
     init().catch((error) => showToast(error.message));
 })();
-

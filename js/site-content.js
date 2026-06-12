@@ -1,5 +1,22 @@
 (function () {
     async function loadContent() {
+        const supabaseClient = window.gokidzSupabaseClient?.();
+        const config = window.GOKIDZ_SUPABASE;
+
+        if (supabaseClient && config) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('site_content')
+                    .select('content')
+                    .eq('id', config.contentId)
+                    .maybeSingle();
+                if (error) throw error;
+                if (data?.content) return data.content;
+            } catch (error) {
+                console.warn('Supabase content could not be loaded:', error.message);
+            }
+        }
+
         try {
             const response = await fetch('data/site-content.json', { cache: 'no-store' });
             if (!response.ok) throw new Error('Content file not found');
@@ -20,16 +37,38 @@
         if (element && src) element.src = src;
     }
 
+    function mediaPath(src) {
+        if (!src) return '';
+        if (/^(https?:)?\/\//i.test(src) || src.startsWith('data:')) return src;
+        return src.split('/').map((part) => encodeURIComponent(part)).join('/');
+    }
+
     function setVideo(selector, src) {
         const video = document.querySelector(selector);
         if (!video || !src) return;
-        const source = video.querySelector('source');
-        if (source) source.src = src;
+        const finalSrc = mediaPath(src);
+        video.preload = 'auto';
+        video.muted = true;
+        video.playsInline = true;
+        video.setAttribute('playsinline', '');
+        const source = video.querySelector('source') || document.createElement('source');
+        source.src = finalSrc;
+        source.type = videoType(finalSrc);
+        if (!source.parentElement) video.appendChild(source);
         video.load();
+        video.play?.().catch(() => {
+            video.controls = true;
+        });
     }
 
     function isVideo(src) {
         return /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(src || '');
+    }
+
+    function videoType(src) {
+        if (/\.webm(\?.*)?$/i.test(src || '')) return 'video/webm';
+        if (/\.ogg(\?.*)?$/i.test(src || '')) return 'video/ogg';
+        return 'video/mp4';
     }
 
     function applyMain(content) {
@@ -107,8 +146,15 @@
                 video.playsInline = true;
                 oldMedia.replaceWith(video);
             }
-            video.innerHTML = `<source src="${src}" type="video/mp4">`;
+            video.preload = 'auto';
+            video.muted = true;
+            video.playsInline = true;
+            video.setAttribute('playsinline', '');
+            video.innerHTML = `<source src="${mediaPath(src)}" type="${videoType(src)}">`;
             video.load();
+            video.play?.().catch(() => {
+                video.controls = true;
+            });
         } else {
             let image = oldMedia.tagName.toLowerCase() === 'img' ? oldMedia : null;
             if (!image) {
@@ -116,7 +162,7 @@
                 image.className = 'square-media';
                 oldMedia.replaceWith(image);
             }
-            image.src = src;
+            image.src = mediaPath(src);
             image.alt = item.querySelector('.square-title-default')?.textContent || 'GOKidz media';
         }
     }
@@ -155,5 +201,7 @@
         applyAbout(content);
     });
 })();
+
+
 
 

@@ -33,7 +33,7 @@
                 <button type="button" id="save-all" class="admin-primary-btn"><i class="fa-solid fa-floppy-disk"></i> Save Draft</button>
             </header>
 
-            <p class="admin-note">Use this portal to prepare site content updates. Saved drafts stay in this browser until full file-edit saving is connected.</p>
+            <p class="admin-note">Use this portal to update online content. Supabase saves changes to the live website after you log in.</p>
 
             <section id="main-settings" class="admin-panel panel-main">
                 <h2>Main</h2>
@@ -43,7 +43,7 @@
                     <label>Static Logo<input data-setting="main.staticLogo" type="text" placeholder="static-logo.png"></label>
                     <label>3D Images<input data-setting="main.characters" type="text" placeholder="3d-characters.png"></label>
                     <label>Footer Logo<input data-setting="main.footerLogo" type="text" placeholder="static-logo.png"></label>
-                    <label>Copyright Text<input data-setting="main.copyright" type="text" placeholder="© 2026 GOKidz Asia. All Rights Reserved."></label>
+                    <label>Copyright Text<input data-setting="main.copyright" type="text" placeholder="ï¿½ 2026 GOKidz Asia. All Rights Reserved."></label>
                     <label class="span-all">Footer Description<textarea data-setting="main.footerDescription" rows="3" placeholder="Every Home, Every Child For Christ."></textarea></label>
                 </div>
             </section>
@@ -95,7 +95,9 @@
         </main>
     </div>
 
-    <script src="js/admin-portal.js?v=20260612-staticpreview"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js?v=20260612-supabase"></script>
+    <script src="js/admin-portal.js?v=20260612-supabase"></script>
 </body>
 </html>
 
