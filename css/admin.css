@@ -1,4 +1,4 @@
-﻿body.admin-login-page,
+body.admin-login-page,
 body.admin-portal-page {
     min-height: 100vh;
     background: #f4fbfb;
@@ -721,19 +721,9 @@ body.credits-modal-open {
     position: relative;
     z-index: 1;
     border: 1px solid rgba(126,224,214,.34);
-    border-top: 6px solid var(--brand-turquoise);
     box-shadow: 0 24px 60px rgba(17,17,17,.18);
 }
 
-.login-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    border-top: 6px solid var(--brand-orange);
-    clip-path: inset(0 0 92% 58%);
-    pointer-events: none;
-}
 
 .login-shape {
     position: absolute;
@@ -836,3 +826,4 @@ body.credits-modal-open {
         animation: none;
     }
 }
+
