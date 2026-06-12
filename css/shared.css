@@ -110,7 +110,7 @@ header {
     position: absolute;
     top: 100%;
     left: 0;
-    min-width: 240px;
+    min-width: clamp(210px, 18vw, 235px);
     margin-top: 10px;
     padding: 0;
     background: var(--white);
@@ -178,21 +178,22 @@ header {
 footer {
     background: #111;
     color: var(--white);
-    padding: 48px 32px 16px;
+    padding: 48px clamp(24px, 5vw, 72px) 16px;
     text-align: left;
 }
 
 .footer-container {
-    max-width: 1500px;
+    max-width: 1320px;
+    width: 100%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: minmax(240px, .95fr) minmax(230px, .85fr) minmax(280px, 1fr) minmax(280px, 1.05fr);
+    grid-template-columns: minmax(230px, .95fr) minmax(210px, .8fr) minmax(260px, .95fr) minmax(260px, 1fr);
     align-items: center;
     justify-content: center;
-    column-gap: 48px;
+    column-gap: clamp(28px, 4vw, 56px);
     row-gap: 34px;
     border-bottom: 1px solid #242424;
-    padding-bottom: 38px;
+    padding: 0 clamp(8px, 2vw, 24px) 38px;
 }
 
 .footer-brand {
@@ -215,7 +216,7 @@ footer {
     font-size: 1rem;
     line-height: 1.4;
     margin: 0;
-    max-width: 300px;
+    max-width: 285px;
 }
 
 .footer-socials,
@@ -332,7 +333,7 @@ footer {
 }
 
 .footer-character img {
-    width: 330px;
+    width: clamp(260px, 24vw, 320px);
     max-width: 100%;
     max-height: none;
     height: auto;
@@ -340,13 +341,26 @@ footer {
 }
 
 .copyright {
-    max-width: 1500px;
+    max-width: 1320px;
+    width: 100%;
     margin: 0 auto;
     border-top: 0;
     padding-top: 18px;
     color: #555;
     font-size: 0.92rem;
     text-align: center;
+}
+
+@media (max-width: 1100px) {
+    .footer-container {
+        grid-template-columns: repeat(2, minmax(260px, 1fr));
+        align-items: start;
+    }
+
+    .footer-character {
+        justify-content: flex-start;
+        padding-left: 0;
+    }
 }
 
 @media (max-width: 768px) {
@@ -454,19 +468,19 @@ footer {
     }
 
     footer {
-        padding: 28px 18px 22px;
+        padding: 30px 22px 22px;
         text-align: center;
     }
 
     .footer-container {
-        max-width: 760px;
+        max-width: 640px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 32px;
+        gap: 28px;
         border-bottom: none;
-        padding-bottom: 28px;
+        padding: 0 8px 28px;
     }
 
     .footer-brand,
@@ -477,7 +491,7 @@ footer {
     }
 
     .footer-brand img {
-        width: min(230px, 78vw);
+        width: min(220px, 76vw);
     }
 
     .footer-brand p {
@@ -520,7 +534,7 @@ footer {
     }
 
     .footer-character img {
-        width: min(440px, 94vw);
+        width: min(390px, 92vw);
     }
 
     .copyright {
