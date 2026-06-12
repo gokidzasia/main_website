@@ -732,6 +732,7 @@ body.credits-modal-open {
     transform: translate3d(var(--move-x, 0), var(--move-y, 0), 0);
     animation: loginFloat var(--float-time, 12s) ease-in-out infinite alternate;
     will-change: transform;
+    transition: transform .28s ease-out;
 }
 
 .login-shape-cloud {
@@ -826,4 +827,5 @@ body.credits-modal-open {
         animation: none;
     }
 }
+
 

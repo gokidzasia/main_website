@@ -4,19 +4,45 @@
         if (!scene || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
         const shapes = Array.from(scene.querySelectorAll('.login-shape'));
+        const pushRadius = 220;
+        const maxPush = 58;
         let frame = 0;
+
+        function resetShapes() {
+            shapes.forEach((shape) => {
+                shape.style.setProperty('--move-x', '0px');
+                shape.style.setProperty('--move-y', '0px');
+            });
+        }
+
         window.addEventListener('pointermove', (event) => {
             cancelAnimationFrame(frame);
             frame = requestAnimationFrame(() => {
-                const x = (event.clientX / window.innerWidth - 0.5) * 2;
-                const y = (event.clientY / window.innerHeight - 0.5) * 2;
-                shapes.forEach((shape, index) => {
-                    const depth = (index + 1) * 5;
-                    shape.style.setProperty('--move-x', x * depth + 'px');
-                    shape.style.setProperty('--move-y', y * depth + 'px');
+                shapes.forEach((shape) => {
+                    const rect = shape.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    const deltaX = centerX - event.clientX;
+                    const deltaY = centerY - event.clientY;
+                    const distance = Math.hypot(deltaX, deltaY) || 1;
+
+                    if (distance > pushRadius) {
+                        shape.style.setProperty('--move-x', '0px');
+                        shape.style.setProperty('--move-y', '0px');
+                        return;
+                    }
+
+                    const strength = (1 - distance / pushRadius) * maxPush;
+                    const pushX = (deltaX / distance) * strength;
+                    const pushY = (deltaY / distance) * strength;
+                    shape.style.setProperty('--move-x', pushX.toFixed(1) + 'px');
+                    shape.style.setProperty('--move-y', pushY.toFixed(1) + 'px');
                 });
             });
         }, { passive: true });
+
+        window.addEventListener('pointerleave', resetShapes);
+        window.addEventListener('blur', resetShapes);
     }
 
     setupInteractiveLoginBackground();
