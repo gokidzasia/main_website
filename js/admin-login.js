@@ -1,4 +1,25 @@
 (function () {
+    function setupInteractiveLoginBackground() {
+        const scene = document.querySelector('.login-scene');
+        if (!scene || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const shapes = Array.from(scene.querySelectorAll('.login-shape'));
+        let frame = 0;
+        window.addEventListener('pointermove', (event) => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => {
+                const x = (event.clientX / window.innerWidth - 0.5) * 2;
+                const y = (event.clientY / window.innerHeight - 0.5) * 2;
+                shapes.forEach((shape, index) => {
+                    const depth = (index + 1) * 5;
+                    shape.style.setProperty('--move-x', x * depth + 'px');
+                    shape.style.setProperty('--move-y', y * depth + 'px');
+                });
+            });
+        }, { passive: true });
+    }
+
+    setupInteractiveLoginBackground();
     const form = document.getElementById('admin-login-form');
     const message = document.getElementById('login-message');
     const passwordInput = document.getElementById('admin-password');
