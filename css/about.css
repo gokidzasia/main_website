@@ -97,11 +97,11 @@ body {
 .member-card img,
 .director-card img {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 50%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 0;
     display: block;
-    box-shadow: 0 12px 26px rgba(0,0,0,.22);
+    box-shadow: none;
 }
 
 .member-card h3,
@@ -181,4 +181,5 @@ body {
         font-size: 1rem;
     }
 }
+
 
