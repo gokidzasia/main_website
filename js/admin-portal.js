@@ -62,10 +62,19 @@
             if (!response.ok) throw new Error('Server content unavailable');
             content = await response.json();
             serverMode = true;
+            return;
         } catch (error) {
             serverMode = false;
+        }
+
+        try {
+            const staticResponse = await fetch('data/site-content.json', { cache: 'no-store' });
+            if (!staticResponse.ok) throw new Error('Static content unavailable');
+            content = await staticResponse.json();
+            showToast('Preview mode only. Use localhost:5600 for uploads and real saves.');
+        } catch (error) {
             content = migrateFlatDraft(JSON.parse(localStorage.getItem(fallbackStorageKey) || '{}'));
-            showToast('Open this page through the local admin server to save real files.');
+            showToast('Open this page through localhost:5600 to upload and save.');
         }
     }
 
