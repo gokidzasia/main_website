@@ -1,0 +1,162 @@
+{
+  "main": {
+    "favicon": "favicon-baby-face-yellow.png",
+    "animatedLogo": "animated-logo.gif",
+    "staticLogo": "static-logo.png",
+    "characters": "3d-characters.png",
+    "footerLogo": "static-logo.png",
+    "footerDescription": "Every Home, Every Child For Christ.",
+    "copyright": "© 2026 GOKidz Asia. All Rights Reserved."
+  },
+  "home": {
+    "heroVideo": "main-header-video.mp4",
+    "welcomeHeader": "Reaching Every Home, Every Child For Christ.",
+    "welcomeSubtitle": "At the heart of everything we do is a passionate mission: Reaching Every Home, Every Child for Christ. Whether you are a parent looking for inspiring resources, a ministry leader seeking to impact the next generation, or someone passionate about seeing young lives transformed by faith, you have found a community that shares your heart.\n\nExplore our resources, connect with our mission, and join us as we partner together to bring the hope, love, and truth of Christ into every household and into the heart of every child across Asia.",
+    "welcomeVideo": "https://www.youtube.com/embed/zkV75ZGpNZ0",
+    "discoverBackground": "discover-section-bg.png",
+    "grids": [
+      {
+        "media": "vbs-latest.mp4",
+        "title": "VBS Program",
+        "hoverTitle": "VBS Latest",
+        "description": "Explore the freshest updates, themes, and toolkits for this season's Vacation Bible School programs."
+      },
+      {
+        "media": "latestvideo.mp4",
+        "title": "Latest Videos",
+        "hoverTitle": "Latest Videos",
+        "description": "Tune into our newest lessons, event recaps, and animated series built directly for children."
+      },
+      {
+        "media": "be-one-of-us.jpg",
+        "title": "Be One of Us",
+        "hoverTitle": "Be One of Us",
+        "description": "Join a fast-growing community of educators, volunteers, and leaders changing lives across the region."
+      },
+      {
+        "media": "curriculum.jpg",
+        "title": "Sunday School Platforms",
+        "hoverTitle": "Sunday School Curriculum",
+        "description": "Access robust systems, digital teachers' guides, and engaging interactive media apps."
+      },
+      {
+        "media": "legends.jpg",
+        "title": "Mobilizing Legends",
+        "hoverTitle": "Mobilizing Legends",
+        "description": "Empowering young champions to become standard-bearers of faith in their areas."
+      },
+      {
+        "media": "partners.jpg",
+        "title": "Partner Platforms",
+        "hoverTitle": "Partner Platforms",
+        "description": "See our collaborative network and resource alliances keeping local hubs active and equipped."
+      }
+    ]
+  },
+  "about": {
+    "director": {
+      "image": "about us/director.png",
+      "name": "Iris Gwyn Abibiason"
+    },
+    "staff": [
+      {
+        "image": "about us/staff-1.png",
+        "name": "Hope Joshua Supetran"
+      },
+      {
+        "image": "about us/staff-2.png",
+        "name": "May Rose Rosarial"
+      },
+      {
+        "image": "about us/staff-3.png",
+        "name": "Rachel Luceno"
+      },
+      {
+        "image": "about us/staff-4.png",
+        "name": "Liezel Dubria"
+      }
+    ],
+    "editor": [
+      {
+        "image": "about us/editor-1.png",
+        "name": "Gelaica Joy Abrenilla"
+      },
+      {
+        "image": "about us/editor-2.png",
+        "name": "John Philip Ugay"
+      },
+      {
+        "image": "about us/editor-3.png",
+        "name": "John Jacob Tamon"
+      },
+      {
+        "image": "about us/editor-4.png",
+        "name": "James Senior"
+      },
+      {
+        "image": "about us/editor-5.png",
+        "name": "Ryza Ramirez"
+      },
+      {
+        "image": "about us/editor-6.png",
+        "name": "Alvin Jake "
+      },
+      {
+        "image": "about us/editor-7.png",
+        "name": "Earjine Mapa"
+      }
+    ],
+    "producer": [
+      {
+        "image": "about us/producer-1.png",
+        "name": "Charm Caroline"
+      },
+      {
+        "image": "about us/producer-2.png",
+        "name": "Ovah Kristbell"
+      },
+      {
+        "image": "about us/producer-3.png",
+        "name": "Terence Jake"
+      },
+      {
+        "image": "about us/producer-4.png",
+        "name": "Aliya"
+      },
+      {
+        "image": "about us/producer-5.png",
+        "name": "Ezekeil"
+      },
+      {
+        "image": "about us/producer-6.png",
+        "name": "DG Anze Belle"
+      }
+    ],
+    "performer": [
+      {
+        "image": "about us/performer-1.png",
+        "name": "Kim"
+      },
+      {
+        "image": "about us/performer-2.png",
+        "name": "Mitzy"
+      },
+      {
+        "image": "about us/performer-3.png",
+        "name": "Terence Jake"
+      },
+      {
+        "image": "about us/performer-4.png",
+        "name": "Al Chris"
+      },
+      {
+        "image": "about us/performer-5.png",
+        "name": "Ezekeil"
+      },
+      {
+        "image": "about us/performer-6.png",
+        "name": "DG Anze Belle"
+      }
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - GOKidz Asia</title>
+    <link class="favicon" rel="icon" type="image/png" href="favicon-baby-face-yellow.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-portal-page">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <a href="index.html" class="admin-brand" aria-label="GOKidz Asia Home">
+                <img src="static-logo.png" alt="GOKidz Asia Logo">
+            </a>
+            <nav class="admin-nav" aria-label="Admin navigation">
+                <a href="#main-settings" class="active"><i class="fa-solid fa-sliders"></i> Main</a>
+                <a href="#home-settings"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="#about-settings"><i class="fa-solid fa-users"></i> About Us</a>
+            </nav>
+            <button type="button" id="admin-logout" class="admin-logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-topbar">
+                <div>
+                    <p class="admin-kicker">GOKidz Asia</p>
+                    <h1>Admin Portal</h1>
+                </div>
+                <button type="button" id="save-all" class="admin-primary-btn"><i class="fa-solid fa-floppy-disk"></i> Save Draft</button>
+            </header>
+
+            <p class="admin-note">Use this portal to prepare site content updates. Saved drafts stay in this browser until full file-edit saving is connected.</p>
+
+            <section id="main-settings" class="admin-panel">
+                <h2>Main</h2>
+                <div class="admin-grid two-columns">
+                    <label>Favicon<input data-setting="main.favicon" type="text" placeholder="favicon-baby-face-yellow.png"></label>
+                    <label>Animated Logo<input data-setting="main.animatedLogo" type="text" placeholder="animated-logo.gif"></label>
+                    <label>Static Logo<input data-setting="main.staticLogo" type="text" placeholder="static-logo.png"></label>
+                    <label>3D Images<input data-setting="main.characters" type="text" placeholder="3d-characters.png"></label>
+                    <label>Footer Logo<input data-setting="main.footerLogo" type="text" placeholder="static-logo.png"></label>
+                    <label>Copyright Text<input data-setting="main.copyright" type="text" placeholder="© 2026 GOKidz Asia. All Rights Reserved."></label>
+                    <label class="span-all">Footer Description<textarea data-setting="main.footerDescription" rows="3" placeholder="Every Home, Every Child For Christ."></textarea></label>
+                </div>
+            </section>
+
+            <section id="home-settings" class="admin-panel">
+                <h2>Home</h2>
+                <div class="admin-grid two-columns">
+                    <label>Main Hero Video<input data-setting="home.heroVideo" type="text" placeholder="main-header-video.mp4"></label>
+                    <label>Welcome Video Embed Link<input data-setting="home.welcomeVideo" type="url" placeholder="https://www.youtube.com/embed/..."></label>
+                    <label>Welcome Header<input data-setting="home.welcomeHeader" type="text" placeholder="Reaching Every Home, Every Child For Christ."></label>
+                    <label class="span-all">Welcome Subtitle<textarea data-setting="home.welcomeSubtitle" rows="4"></textarea></label>
+                    <label class="span-all">Discover Background<input data-setting="home.discoverBackground" type="text" placeholder="discover-section-bg.png"></label>
+                </div>
+
+                <h3>6 Grid Items</h3>
+                <div class="repeat-list" data-repeat="home.grids">
+                    <article class="repeat-card">
+                        <h4>Grid 1</h4>
+                        <label>Photo/Video<input data-setting="home.grid1.media" type="text" placeholder="vbs-latest.mp4"></label>
+                        <label>Title<input data-setting="home.grid1.title" type="text"></label>
+                        <label>Hover Title<input data-setting="home.grid1.hoverTitle" type="text"></label>
+                        <label>Description<textarea data-setting="home.grid1.description" rows="3"></textarea></label>
+                    </article>
+                    <article class="repeat-card"><h4>Grid 2</h4><label>Photo/Video<input data-setting="home.grid2.media" type="text"></label><label>Title<input data-setting="home.grid2.title" type="text"></label><label>Hover Title<input data-setting="home.grid2.hoverTitle" type="text"></label><label>Description<textarea data-setting="home.grid2.description" rows="3"></textarea></label></article>
+                    <article class="repeat-card"><h4>Grid 3</h4><label>Photo/Video<input data-setting="home.grid3.media" type="text"></label><label>Title<input data-setting="home.grid3.title" type="text"></label><label>Hover Title<input data-setting="home.grid3.hoverTitle" type="text"></label><label>Description<textarea data-setting="home.grid3.description" rows="3"></textarea></label></article>
+                    <article class="repeat-card"><h4>Grid 4</h4><label>Photo/Video<input data-setting="home.grid4.media" type="text"></label><label>Title<input data-setting="home.grid4.title" type="text"></label><label>Hover Title<input data-setting="home.grid4.hoverTitle" type="text"></label><label>Description<textarea data-setting="home.grid4.description" rows="3"></textarea></label></article>
+                    <article class="repeat-card"><h4>Grid 5</h4><label>Photo/Video<input data-setting="home.grid5.media" type="text"></label><label>Title<input data-setting="home.grid5.title" type="text"></label><label>Hover Title<input data-setting="home.grid5.hoverTitle" type="text"></label><label>Description<textarea data-setting="home.grid5.description" rows="3"></textarea></label></article>
+                    <article class="repeat-card"><h4>Grid 6</h4><label>Photo/Video<input data-setting="home.grid6.media" type="text"></label><label>Title<input data-setting="home.grid6.title" type="text"></label><label>Hover Title<input data-setting="home.grid6.hoverTitle" type="text"></label><label>Description<textarea data-setting="home.grid6.description" rows="3"></textarea></label></article>
+                </div>
+            </section>
+
+            <section id="about-settings" class="admin-panel">
+                <h2>About Us</h2>
+                <div class="repeat-list">
+                    <article class="repeat-card featured-card">
+                        <h4>Creative Director</h4>
+                        <label>Image<input data-setting="about.director.image" type="text" placeholder="about us/director.png"></label>
+                        <label>Text<input data-setting="about.director.name" type="text" placeholder="Iris Gwyn Abibiason"></label>
+                    </article>
+                </div>
+
+                <div class="team-editor">
+                    <article class="admin-team-group"><h3>Staff</h3><div data-team="staff"></div></article>
+                    <article class="admin-team-group"><h3>Video Editor</h3><div data-team="editor"></div></article>
+                    <article class="admin-team-group"><h3>Music Production</h3><div data-team="producer"></div></article>
+                    <article class="admin-team-group"><h3>Studio Performer</h3><div data-team="performer"></div></article>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/admin-portal.js"></script>
+</body>
+</html>

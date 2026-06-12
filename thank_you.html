@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Team! - GOKidz Asia</title>
+    <link rel="icon" type="image/png" href="favicon-baby-face-yellow.png">
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-turquoise: #7EE0D6;
+            --brand-light-yellow: #FCEFA2;
+            --brand-orange: #FFBF60;
+            --brand-dark: #111111;
+            --white: #ffffff;
+            --brand-lime: #C6E970;
+            --font-stack: 'Sniglet', cursive;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: var(--brand-lime);
+            font-family: var(--font-stack);
+            color: var(--brand-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .thank-you-card { 
+            max-width: 600px; 
+            background: var(--white); 
+            padding: 40px; 
+            border-radius: 25px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+            text-align: center;
+            border-top: 10px solid var(--brand-turquoise);
+        }
+
+        /* Added Welcome Image Styling */
+        .welcome-img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
+
+        h1 { font-size: 2rem; margin-bottom: 15px; text-transform: uppercase; }
+        
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .notice-box {
+            background-color: #f0fdfb;
+            border: 2px dashed var(--brand-turquoise);
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .socials-section h3 { font-size: 1rem; margin-bottom: 15px; text-transform: uppercase; }
+        .social-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .social-btn {
+            text-decoration: none; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; color: var(--white);
+        }
+
+        .fb { background-color: #1877F2; } .yt { background-color: #FF0000; } 
+        .ig { background-color: #E1306C; } .tk { background-color: #000000; }
+
+        /* Updated Button Style */
+        .home-btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: var(--brand-orange); /* Uses your brand color */
+            color: var(--brand-dark);
+            padding: 14px 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 30px; /* Fully rounded edges */
+            margin-top: 30px;    /* Adds space from the social media buttons */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 191, 96, 0.4);
+        }
+
+        .home-btn:hover {
+            background-color: var(--brand-dark);
+            color: var(--white);
+            transform: translateY(-3px); /* Lifts up on hover */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+    
+    </style>
+</head>
+<body>
+
+<div class="thank-you-card">
+    <img src="welcome-header.png" alt="Welcome to GOKidz Asia" class="welcome-img">
+    
+    <h1>Application Received!</h1>
+    
+    <p class="message">
+        Welcome to the team! We are so excited you’ve chosen to serve God’s Kingdom with us. 
+        Your talents are a gift, and we can’t wait to see the impact you’ll make in the lives of children. 
+        Together, we are planting seeds of faith and sharing Jesus with the world!
+    </p>
+
+    <div class="notice-box">
+        📬 Our team is reviewing your application and will contact you shortly!
+    </div>
+
+    <div class="socials-section">
+        <h3>Connect with us</h3>
+        <div class="social-buttons">
+            <a href="https://www.facebook.com/GOKidzAsia" target="_blank" class="social-btn fb">Facebook</a>
+            <a href="https://www.youtube.com/@GOKidzAsia" target="_blank" class="social-btn yt">YouTube</a>
+            <a href="https://www.instagram.com/gokidzasia_officia" target="_blank" class="social-btn ig">Instagram</a>
+            <a href="https://www.tiktok.com/@gokidz.asia" target="_blank" class="social-btn tk">TikTok</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="home-btn">Return to Home</a>
+</div>
+
+</body>
+</html>

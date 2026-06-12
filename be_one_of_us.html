@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be One of Us - GOKidz Asia</title>
+    <link rel="icon" type="image/png" href="favicon-baby-face-yellow.png">
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
+    <style>
+        /* --- BRAND COLOR PALETTE THEME --- */
+        :root {
+            --brand-turquoise: #7EE0D6;
+            --brand-light-yellow: #FCEFA2;
+            --brand-lime: #C6E970;
+            --brand-orange: #FFBF60;
+            --brand-dark: #111111;
+            --white: #ffffff;
+            --text-color: #333333;
+            --white: #ffffff;
+             --font-stack: 'Sniglet', cursive;
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--brand-light-yellow); padding: 40px 20px; color: var(--brand-dark); }
+        /* Soft radial background gradient */
+            background: radial-gradient(circle, #fffdf0 0%, #fcefa2 100%);
+            min-height: 100vh;
+            padding: 40px 20px; 
+            color: var(--brand-dark); 
+            font-family: var(--font-stack); /* Applied font globally */
+        }
+
+        /* Ensure form elements also use the rounded font */
+        input, textarea, button, label {
+            font-family: var(--font-stack) !important;
+        }
+        .form-card { 
+        max-width: 650px; 
+        margin: 0 auto; 
+        background: var(--white); 
+        padding: 40px; /* Removed the trailing ; 0 */
+        border-radius: 30px; /* Increased from 16px to 30px for a softer, bubblier look */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+        border-top: 10px solid var(--brand-turquoise);
+        overflow: hidden; /* This ensures the top border follows the rounded corners */
+    }
+
+        h2 { text-align: center; margin-bottom: 30px; font-size: 2rem; color: var(--brand-dark); text-transform: uppercase; letter-spacing: 1px; }
+        .section-title { font-size: 1.1rem; font-weight: bold; margin: 25px 0 10px; padding-bottom: 5px; border-bottom: 2px solid var(--brand-turquoise); }
+        
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95rem; }
+        input[type="text"], input[type="email"], input[type="url"], input[type="tel"], input[type="date"], textarea {
+            width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; outline: none; font-size: 1rem; transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus { border-color: var(--brand-turquoise); }
+        
+        .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
+        .checkbox-item { display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 500; }
+        .checkbox-item input { width: 18px; height: 18px; accent-color: var(--brand-turquoise); }
+        
+        .commitment-box { 
+            background-color: #fcfbf4; 
+            border-left: 4px solid var(--brand-orange); 
+            padding: 20px; 
+            border-radius: 4px; 
+            font-size: 0.95rem; 
+            line-height: 1.6; 
+            margin-bottom: 20px;
+        }
+        .commitment-box p { margin-bottom: 10px; font-weight: 500; }
+        .commitment-box ol { margin-left: 20px; }
+        .commitment-box li { margin-bottom: 8px; }
+        
+        .signature-item { display: flex; align-items: flex-start; gap: 10px; margin-top: 15px; background: #f0fdfb; padding: 15px; border-radius: 8px; }
+        .signature-item input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--brand-turquoise); }
+        .signature-item label { font-size: 0.9rem; font-weight: 500; line-height: 1.4; color: #333; }
+
+        button { 
+            background-color: var(--brand-orange); 
+            color: var(--brand-dark); 
+            border: none; 
+            padding: 20px; 
+            width: 100%; 
+            height: 60px;
+            font-weight: 700; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            border-radius: 30px; 
+            margin-top: 25px;
+            transition: transform 0.2s, background-color 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 191, 96, 0.4);
+        }
+        button:hover { background-color: var(--brand-dark); color: var(--brand-orange); transform: translateY(-2px); }
+        
+        @media (max-width: 500px) {
+            .checkbox-grid { grid-template-columns: 1fr; }
+            .form-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <h2>Be One of Us!</h2>
+    <form id="volunteerForm">
+        
+        <div class="section-title">Personal Details</div>
+        
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" id="fullName" placeholder="Juan Dela Cruz" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="example@mail.com" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Facebook Profile Link</label>
+            <input type="url" id="facebook" placeholder="https://facebook.com/yourusername" required>
+        </div>
+
+        <div class="input-group">
+            <label>Current Location (City/Province)</label>
+            <input type="text" id="location" placeholder="Bacolod City, Negros Occidental" required>
+        </div>
+
+        <div class="input-group">
+            <label>Contact Number</label>
+            <input type="tel" id="contactNo" placeholder="09123456789" required>
+        </div>
+
+        <div class="input-group">
+            <label>Birthday</label>
+            <input type="date" id="bday" required>
+        </div>
+
+        <div class="input-group">
+            <label>Short Info About Yourself</label>
+            <textarea id="shortInfo" rows="4" placeholder="Likes, favorites, hobbies, dreams, etc..." required></textarea>
+        </div>
+
+        <div class="section-title">Areas of Contribution</div>
+        <div class="input-group">
+            <label>Select fields you are interested to serve in:</label>
+            <div class="checkbox-grid">
+                <label class="checkbox-item"><input type="checkbox" name="contribution" value="Scriptwriting"> Scriptwriting</label>
+                <label class="checkbox-item"><input type="checkbox" name="contribution" value="Music Editing"> Music Editing</label>
+                <label class="checkbox-item"><input type="checkbox" name="contribution" value="Singer"> Singer</label>
+                <label class="checkbox-item"><input type="checkbox" name="contribution" value="Composer"> Composer</label>
+                <label class="checkbox-item"><input type="checkbox" name="contribution" value="Video Editing"> Video Editing</label>
+                <label class="checkbox-item"><input type="checkbox" name="contribution" value="Studio Performer"> Studio Performer</label>
+            </div>
+        </div>
+
+        <div class="section-title">Commitment & Understanding</div>
+        <div class="commitment-box">
+            <p>By signing this form, I commit to using my God-given talents for the ministry’s mission of expanding His Kingdom.</p>
+            <p>I agree to:</p>
+            <ol>
+                <li>Fulfill my volunteer duties with dedication, excellence, and teamwork.</li>
+                <li>Use my gifts to glorify God, contributing to the Great Commission (Matthew 28:19-20).</li>
+                <li>Attend scheduled meetings and events, honor deadlines, and remain open to feedback.</li>
+                <li>Serve with humility, understanding that this commitment is for the Lord’s purpose and glory.</li>
+            </ol>
+        </div>
+
+        <div class="signature-item">
+            <input type="checkbox" id="signature" required>
+            <label for="signature">
+                <strong>Acknowledgment and Signature:</strong><br>
+                I acknowledge and understand the responsibilities outlined above. By checking this box, I confirm my commitment to serve as a volunteer in this ministry for the year 2026.
+            </label>
+        </div>
+
+        <button type="submit" id="submitBtn">I Volunteer</button>
+    </form>
+</div>
+
+<script>
+    // Live GOKidz Asia Google Script Deployment Endpoint Link
+	const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVg65NFnSaOdbi-nnhFVztDU0TNiSFsWpSXuvpmC63KZFCEDc537KVyJGPB-hgcOZVkg/exec";
+
+    document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = "Submitting Data...";
+        submitBtn.disabled = true;
+
+        const selectedContributions = [];
+        document.querySelectorAll('input[name="contribution"]:checked').forEach((checkbox) => {
+            selectedContributions.push(checkbox.value);
+        });
+
+        if(selectedContributions.length === 0) {
+            alert("Please select at least one Area of Contribution to serve in.");
+            submitBtn.innerText = "I Volunteer";
+            submitBtn.disabled = false;
+            return;
+        }
+
+        const applicantPayload = {
+            fullName: document.getElementById('fullName').value,
+            email: document.getElementById('email').value,
+            facebook: document.getElementById('facebook').value,
+            location: document.getElementById('location').value,
+            contactNo: document.getElementById('contactNo').value,
+            bday: document.getElementById('bday').value,
+            shortInfo: document.getElementById('shortInfo').value,
+            contributions: selectedContributions.join(', ')
+        };
+
+        // Fixed Fetch block to bypass local browser CORS blocking structures smoothly
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(applicantPayload) // Send straight as raw text string
+        })
+        .then(() => {
+            document.getElementById('volunteerForm').reset();
+            window.location.href = "thank_you.html"; 
+        })
+        .catch(error => {
+            alert('Network communication error occurred.');
+            console.error('Error:', error);
+            submitBtn.innerText = "I Volunteer";
+            submitBtn.disabled = false;
+        });
+    });
+</script>
+
+</body>
+</html>

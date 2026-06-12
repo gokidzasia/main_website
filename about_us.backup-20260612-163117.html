@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - GOKidz Asia</title>
+    <link class="favicon" rel="icon" type="image/png" href="favicon-baby-face-yellow.png">
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta property="og:image" content="gokidz-asia-cover-thumbnail.jpg">
+    <meta property="og:title" content="About Us - GOKidz Asia">
+    <meta property="og:description" content="Learn more about GOKidz Asia and our team of creative professionals.">
+
+   <style>
+:root {
+    --brand-turquoise: #7EE0D6;
+    --brand-lime: #C6E970;
+    --brand-orange: #FFBF60;
+    --brand-dark: #111111;
+    --brand-hill: #1c5112;
+    --white: #ffffff;
+    --font-stack: 'Sniglet', sans-serif;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:var(--font-stack);
+    color:#fff;
+    background-color:var(--white);
+    overflow-x:hidden;
+}
+
+/* NAVIGATION */
+header{
+    background-color:var(--white);
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+    position:sticky;
+    top:0;
+    z-index:1000;
+    margin:0;
+}
+
+.nav-container{
+    max-width:1200px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+}
+
+.logo img{
+    height:50px;
+    display:block;
+}
+
+.nav-links{
+    display:flex;
+    list-style:none;
+    align-items:center;
+}
+
+.nav-links > li{
+    margin-left:25px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--brand-dark);
+    font-weight:600;
+    font-size:1rem;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:var(--brand-turquoise);
+}
+
+.cta-btn{
+    background-color:var(--brand-orange);
+    padding:10px 20px;
+    border-radius:25px;
+    color:var(--brand-dark)!important;
+    transition:.3s;
+}
+
+.cta-btn:hover{
+    background-color:var(--brand-turquoise);
+    transform:scale(1.05);
+}
+
+/* DROPDOWN - SAME STYLE AS INDEX */
+.dropdown{
+    position:relative;
+    cursor:pointer;
+}
+
+.dropdown-menu{
+    position:absolute;
+    top:100%;
+    left:0;
+    background-color:var(--white);
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+    list-style:none;
+    min-width:240px;
+    border-top:3px solid var(--brand-turquoise);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(10px);
+    transition:all .3s ease;
+    border-radius:4px;
+    margin-top:10px;
+    z-index:1001;
+}
+
+.dropdown-menu li a{
+    padding:12px 20px;
+    display:flex;
+    align-items:center;
+    font-weight:500;
+    border-bottom:1px solid #eee;
+    color:var(--brand-dark);
+}
+
+.dropdown-menu li:last-child a{
+    border-bottom:none;
+}
+
+.dropdown-menu li a img{
+    height:20px;
+    margin-right:10px;
+}
+
+.dropdown:hover .dropdown-menu{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+}
+/* MOBILE */
+@media(max-width:768px){
+
+    .nav-container{
+        flex-direction:column;
+    }
+
+    .nav-links{
+        flex-direction:column;
+        width:100%;
+    }
+
+    .nav-links > li{
+        margin:10px 0;
+    }
+
+    .dropdown-menu{
+        position:static;
+        opacity:1;
+        visibility:visible;
+        transform:none;
+        display:none;
+        width:100%;
+        box-shadow:none;
+        border-top:none;
+        border-radius:0;
+    }
+
+    .dropdown.active .dropdown-menu{
+        display:block;
+    }
+}
+
+/* ABOUT PAGE: SKY HEADER + PHOTO HILL
+   Replace these two image paths with your real photos:
+   1. about us/about-sky-header.png = sky/header photo
+   2. about us/about-hill-bg.png = green hill photo
+*/
+:root{
+    --about-sky-image:url('about us/about-sky-header.png');
+    --about-hill-image:url('about us/about-hill-bg.png');
+}
+
+.about-hero{
+    height:clamp(320px, 48vw, 540px);
+    width:100%;
+    background-image:var(--about-sky-image);
+    background-size:cover;
+    background-position:center top;
+    background-repeat:no-repeat;
+    position:relative;
+}
+
+.hill-container{
+    width:100%;
+    min-height:100vh;
+    margin-top:-95px;
+    padding:150px 20px 70px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    background-color:var(--brand-hill);
+    background-image:var(--about-hill-image);
+    background-size:cover;
+    background-position:top center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    border-radius:50% 50% 0 0 / 8% 8% 0 0;
+    box-shadow:0 -18px 35px rgba(0,0,0,.08);
+}
+
+.hill-container::before{
+    content:'';
+    position:absolute;
+    left:-10%;
+    top:-1px;
+    width:120%;
+    height:135px;
+    background-image:var(--about-hill-image);
+    background-size:cover;
+    background-position:top center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    border-radius:0 0 50% 50% / 0 0 100% 100%;
+    pointer-events:none;
+}
+
+.team-container{
+    position:relative;
+    z-index:1;
+}
+
+@media(max-width:768px){
+    .hill-container,
+    .hill-container::before{
+        background-attachment:scroll;
+    }
+
+    .about-hero{
+        height:330px;
+    }
+
+    .hill-container{
+        margin-top:-60px;
+        padding-top:105px;
+        border-radius:50% 50% 0 0 / 4% 4% 0 0;
+    }
+}
+
+.team-container{
+    max-width:800px;
+    margin:0 auto;
+}
+
+.grid-container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:40px;
+    margin:30px 0 80px;
+}
+
+.member-card{
+    width:220px;
+    flex:0 0 220px;
+    text-align:center;
+}
+
+.member-card img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-radius:50%;
+    display:block;
+}
+
+.member-card h3{
+    font-size:1.5rem;
+    margin-top:10px;
+}
+
+.director-card{
+    width:250px;
+    margin:0 auto 80px;
+    text-align:center;
+}
+
+.director-card img{
+    width:100%;
+    border-radius:50%;
+    display:block;
+}
+
+.director-card h3{
+    font-size:1.4rem;
+    margin-top:5px;
+}
+
+h2{
+    margin:50px 0 30px;
+    text-transform:uppercase;
+    font-size:1.8rem;
+}
+
+/* SHARED FOOTER + MOBILE NAV SUPPORT: copy with the nav/footer if another page does not already have it. */
+.menu-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:5px}.menu-toggle span{display:block;width:25px;height:3px;background-color:var(--brand-dark);transition:all .3s ease}footer{background-color:var(--brand-dark);color:var(--white);padding:60px 20px 20px}.footer-container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;border-bottom:1px solid #222;padding-bottom:40px}.footer-brand img{height:60px;margin-bottom:15px}.footer-brand p{color:#aaa;font-size:.9rem}.footer-socials h4,.footer-links h4{color:var(--brand-lime);margin-bottom:20px;font-size:1.1rem;text-transform:uppercase;letter-spacing:1px}.social-icons{display:flex;flex-direction:row;gap:18px;list-style:none;align-items:center;flex-wrap:wrap}.social-icons a i{font-size:1.8rem;transition:transform .2s cubic-bezier(.25,1,.5,1),color .3s ease}.social-icons a:hover i{color:var(--brand-turquoise)!important;transform:scale(1.18) translateY(-3px)}.footer-links ul{list-style:none}.footer-links li{margin-bottom:12px}.footer-links a{color:#ccc;text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:10px}.footer-links a:hover{color:var(--brand-turquoise)}.footer-character{display:flex;justify-content:center;align-items:center}.footer-character img{max-width:100%;height:auto;max-height:150px}.copyright{text-align:center;padding-top:20px;color:#555;font-size:.85rem}@media(max-width:968px){.footer-container{grid-template-columns:repeat(2,1fr)}}@media(max-width:768px){.nav-container{display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;width:100%!important;margin:0!important;padding:10px 15px!important;height:70px}.menu-toggle{display:flex!important;align-items:center;justify-content:center;margin:0;z-index:1001}.nav-links{position:fixed;top:20px;right:-100%;width:85%;max-width:340px;height:calc(100vh - 40px);background-color:var(--white);flex-direction:column;justify-content:center;gap:25px;box-shadow:-5px 5px 25px rgba(0,0,0,.15);transition:right .4s cubic-bezier(.25,1,.5,1);padding:40px;border-radius:20px}.nav-links.active{right:20px}.nav-links>li{margin-left:0;width:100%;text-align:center}.menu-toggle.active span:nth-child(1){transform:rotate(45deg) translate(5px,6px)}.menu-toggle.active span:nth-child(2){opacity:0}.menu-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-6px)}}@media(max-width:560px){.footer-container{grid-template-columns:1fr;text-align:center}.social-icons,.footer-links a{justify-content:center}}
+
+/* FINAL MOBILE NAV FIX - keeps the logo left and the 3-line menu on the right */
+@media(max-width:768px){
+    header{
+        position:sticky!important;
+        top:0!important;
+        z-index:3000!important;
+        background:var(--white)!important;
+    }
+
+    .nav-container{
+        display:flex!important;
+        flex-direction:row!important;
+        justify-content:space-between!important;
+        align-items:center!important;
+        width:100%!important;
+        max-width:none!important;
+        height:86px!important;
+        margin:0!important;
+        padding:10px 18px!important;
+    }
+
+    .logo{
+        display:flex!important;
+        align-items:center!important;
+        flex:0 1 auto!important;
+    }
+
+    .logo img{
+        max-height:64px!important;
+        width:auto!important;
+    }
+
+    .menu-toggle{
+        display:flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        width:48px!important;
+        height:48px!important;
+        margin-left:auto!important;
+        padding:8px!important;
+        flex:0 0 48px!important;
+        z-index:3002!important;
+    }
+
+    .menu-toggle span{
+        width:30px!important;
+        height:4px!important;
+    }
+
+    .nav-links{
+        position:fixed!important;
+        top:96px!important;
+        right:-100%!important;
+        width:85%!important;
+        max-width:340px!important;
+        height:calc(100dvh - 116px)!important;
+        background:var(--white)!important;
+        flex-direction:column!important;
+        justify-content:flex-start!important;
+        gap:24px!important;
+        padding:56px 32px!important;
+        border-radius:20px!important;
+        box-shadow:-5px 5px 25px rgba(0,0,0,.15)!important;
+        transition:right .4s cubic-bezier(.25,1,.5,1)!important;
+    }
+
+    .nav-links.active{
+        right:16px!important;
+    }
+}
+
+/* FINAL ABOUT HILL CURVE FIX - gentle hill instead of a pointed dome */
+.about-hero{
+    height:clamp(300px, 42vw, 500px);
+}
+
+.hill-container{
+    margin-top:-28px!important;
+    padding:100px 20px 70px!important;
+    border-radius:0!important;
+    overflow:visible!important;
+    isolation:isolate;
+}
+
+.hill-container::before{
+    content:''!important;
+    position:absolute!important;
+    left:-8%!important;
+    top:-78px!important;
+    width:116%!important;
+    height:130px!important;
+    background-color:var(--brand-hill)!important;
+    background-image:var(--about-hill-image)!important;
+    background-size:cover!important;
+    background-position:top center!important;
+    background-repeat:no-repeat!important;
+    background-attachment:fixed!important;
+    border-radius:50% 50% 0 0 / 100% 100% 0 0!important;
+    z-index:0!important;
+    pointer-events:none!important;
+}
+
+.team-container{
+    position:relative!important;
+    z-index:1!important;
+}
+
+@media(max-width:768px){
+    .about-hero{
+        height:350px!important;
+    }
+
+    .hill-container{
+        margin-top:-18px!important;
+        padding-top:78px!important;
+    }
+
+    .hill-container::before{
+        top:-44px!important;
+        height:74px!important;
+        background-attachment:scroll!important;
+    }
+}
+
+/* FINAL VBS DROPDOWN FIX - consistent text-only dropdown on all pages */
+.dropdown{
+    position:relative!important;
+    cursor:pointer!important;
+}
+
+.dropdown-menu{
+    position:absolute!important;
+    top:100%!important;
+    left:0!important;
+    min-width:240px!important;
+    margin-top:10px!important;
+    padding:0!important;
+    background-color:var(--white)!important;
+    list-style:none!important;
+    border-top:3px solid var(--brand-turquoise)!important;
+    border-radius:4px!important;
+    box-shadow:0 4px 15px rgba(0,0,0,.15)!important;
+    opacity:0!important;
+    visibility:hidden!important;
+    transform:translateY(10px)!important;
+    transition:all .3s ease!important;
+    z-index:3003!important;
+}
+
+.dropdown-menu li{
+    width:100%!important;
+    margin:0!important;
+}
+
+.dropdown-menu li a{
+    display:block!important;
+    padding:12px 20px!important;
+    color:var(--brand-dark)!important;
+    font-weight:500!important;
+    text-align:left!important;
+    border-bottom:1px solid #eee!important;
+    background:transparent!important;
+}
+
+.dropdown-menu li:last-child a{
+    border-bottom:none!important;
+}
+
+.dropdown-menu li a:hover{
+    color:var(--brand-turquoise)!important;
+    background:#fcfcfc!important;
+}
+
+.dropdown:hover .dropdown-menu{
+    opacity:1!important;
+    visibility:visible!important;
+    transform:translateY(0)!important;
+}
+
+@media(max-width:768px){
+    .dropdown-menu{
+        position:relative!important;
+        top:0!important;
+        left:0!important;
+        display:none!important;
+        width:100%!important;
+        min-width:0!important;
+        margin-top:8px!important;
+        box-shadow:none!important;
+        opacity:1!important;
+        visibility:visible!important;
+        transform:none!important;
+        background:#fcfcfc!important;
+    }
+
+    .dropdown.active .dropdown-menu{
+        display:block!important;
+    }
+
+    .dropdown-menu li a{
+        text-align:center!important;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- SHARED NAVIGATION START: copy this whole block -->
+<header>
+        <div class="nav-container">
+            <div class="logo">
+                <img id="header-logo" src="static-logo.png" alt="GOKidz Asia Logo">
+            </div>
+            
+            <button class="menu-toggle" id="mobile-toggle" aria-label="Toggle Navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav>
+                <ul class="nav-links" id="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown" id="vbs-dropdown">
+                        <a href="#">VBS Hub ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Magnitude</a></li>
+                            <li><a href="#">The Mighty God of Jonah</a></li>
+                            <li><a href="#">Ark-mazing Adventure</a></li>
+                            <li><a href="#">Light it Up</a></li>
+                        </ul>
+                    </li>
+                     <li><a href="#">Plus</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                   <li><a href="be_one_of_us.html" class="cta-btn">BE ONE OF US!</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+<!-- SHARED NAVIGATION END -->
+
+    <section class="about-hero"></section>
+
+    <main class="hill-container">
+        <div class="team-container">
+            <h2>Creative Director</h2>
+            <div class="director-card">
+                <img src="about us/director.png" alt="Director">
+                <h3>Iris Gwyn Abibiason</h3>
+            </div>
+
+            <h2>Our Staff</h2>
+            <div class="grid-container">
+                <div class="member-card"><img src="about us/staff-1.png" alt="Staff member"><h3>Hope Joshua Supetran</h3></div>
+                <div class="member-card"><img src="about us/staff-2.png" alt="Staff member"><h3>May Rose Rosarial</h3></div>
+                <div class="member-card"><img src="about us/staff-3.png" alt="Staff member"><h3>Rachel Luceno</h3></div>
+                <div class="member-card"><img src="about us/staff-4.png" alt="Staff member"><h3>Liezel Dubria</h3></div>
+            </div>
+
+            <h2>Video Editors</h2>
+            <div class="grid-container">
+                <div class="member-card"><img src="about us/editor-1.png"><h3>Gelaica Joy Abrenilla</h3></div>
+                <div class="member-card"><img src="about us/editor-2.png"><h3>John Philip Ugay</h3></div>
+                <div class="member-card"><img src="about us/editor-3.png"><h3>John Jacob Tamon</h3></div>
+                <div class="member-card"><img src="about us/editor-4.png"><h3>James Senior</h3></div>
+                <div class="member-card"><img src="about us/editor-5.png"><h3>Ryza Ramirez</h3></div>
+                <div class="member-card"><img src="about us/editor-6.png"><h3>Name 6</h3></div>
+                <div class="member-card"><img src="about us/editor-7.png"><h3>Name 7</h3></div>
+            </div>
+
+            <h2>Music Production</h2>
+             <div class="grid-container">
+            <div class="member-card"><img src="about us/producer-1.png"><h3>Charm Caroline</h3></div>
+            <div class="member-card"><img src="about us/producer-2.png"><h3>Ovah Kristbell</h3></div>
+            <div class="member-card"><img src="about us/producer-3.png"><h3>Terence Jake</h3></div>
+            <div class="member-card"><img src="about us/producer-4.png"><h3>Aliya</h3></div>
+            <div class="member-card"><img src="about us/producer-5.png"><h3>Ezekeil</h3></div>
+            <div class="member-card"><img src="about us/producer-6.png"><h3>DG Anze Belle</h3></div>
+        </div>
+
+            <h2>Studio Performers</h2>
+             <div class="grid-container">
+            <div class="member-card"><img src="about us/performer-1.png"><h3>Kim</h3></div>
+            <div class="member-card"><img src="about us/performer-2.png"><h3>Ovah Kristbell</h3></div>
+            <div class="member-card"><img src="about us/performer-3.png"><h3>Terence Jake</h3></div>
+            <div class="member-card"><img src="about us/performer-4.png"><h3>Aliya</h3></div>
+            <div class="member-card"><img src="about us/performer-5.png"><h3>Ezekeil</h3></div>
+            <div class="member-card"><img src="about us/performer-6.png"><h3>DG Anze Belle</h3></div>
+        </div>
+        </div>
+    </main>
+
+<!-- SHARED FOOTER START: copy this whole block -->
+<footer class="reveal">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="static-logo.png" alt="GOKidz Asia Footer Logo">
+                <p>Every Home, Every Child For Christ.</p>
+            </div>
+            
+            <div class="footer-socials">
+                <h4>Visit our socials</h4>
+                <ul class="social-icons">
+                    <li><a href="mailto:gokidzasia@gmail.com" title="Email"><i class="fa-solid fa-envelope" style="color: rgb(255, 255, 255);"></i></a></li>
+                    <li><a href="https://www.facebook.com/GOKidzAsia" target="_blank" title="Facebook"><i class="fa-brands fa-facebook" style="color: rgb(255, 255, 255);"></i></a></li>
+                    <li><a href="https://www.youtube.com/@GOKidzAsia" target="_blank" title="YouTube"><i class="fa-brands fa-youtube" style="color: rgb(255, 255, 255);"></i></a></li>
+                    <li><a href="https://www.instagram.com/gokidzasia_official" target="_blank" title="Instagram"><i class="fa-brands fa-instagram" style="color: rgb(255, 255, 255);"></i></a></li>
+                    <li><a href="https://www.tiktok.com/@gokidz.asia" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok" style="color: rgb(255, 255, 255);"></i></a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Platforms</h4>
+                <ul>
+                    <li><a href="https://www.youtube.com/@GOKidzAsia" target="_blank" style="font-weight: bold; color: #ff0000;"><i class="fa-brands fa-youtube" style="color: rgb(255, 255, 255);"></i> SUBSCRIBE TO YOUTUBE!</a></li>
+                    <li><a href="#"><i class="fa-solid fa-globe" style="color: rgb(255, 255, 255);"></i> Visit GOKidzAsiaPlus</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-character">
+                <img src="3d-characters.png" alt="GOKidz 3D Characters">
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2026 GOKidz Asia. All Rights Reserved.
+        </div>
+    </footer>
+<!-- SHARED FOOTER END -->
+
+    <script>
+        (function(){
+            if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+                window.chatbase=(...args)=>{ if(!window.chatbase.q){window.chatbase.q=[]} window.chatbase.q.push(args) };
+                window.chatbase=new Proxy(window.chatbase,{ get(target,prop){ if(prop==="q"){return target.q} return(...args)=>target(prop,...args) } })
+            }
+            const onLoad=function(){
+                const script=document.createElement("script");
+                script.src="https://www.chatbase.co/embed.min.js";
+                script.id="M0i9aCRNBG4AEd4qevHBk";
+                script.domain="www.chatbase.co";
+                document.body.appendChild(script)
+            };
+            if(document.readyState==="complete"){ onLoad() } else { window.addEventListener("load",onLoad) }
+        })();
+    </script>
+<script>
+/* SHARED NAVIGATION SCRIPT: copy with the nav. */
+window.addEventListener('DOMContentLoaded',()=>{const toggleBtn=document.getElementById('mobile-toggle');const navMenu=document.getElementById('nav-menu');const vbsDropdown=document.getElementById('vbs-dropdown');if(toggleBtn&&navMenu){toggleBtn.addEventListener('click',()=>{toggleBtn.classList.toggle('active');navMenu.classList.toggle('active')})}if(vbsDropdown){vbsDropdown.addEventListener('click',(e)=>{if(window.innerWidth<=768){const link=vbsDropdown.querySelector('a');if(e.target===link){e.preventDefault();vbsDropdown.classList.toggle('active')}}})}});
+</script>
+</body>
+</html>

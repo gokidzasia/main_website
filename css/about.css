@@ -1,0 +1,127 @@
+﻿body {
+    color: var(--white);
+    background-color: var(--white);
+}
+
+:root {
+    --about-sky-image: url('../about us/about-sky-header.png');
+    --about-hill-image: url('../about us/about-hill-bg.png');
+}
+
+.about-hero {
+    height: clamp(300px, 42vw, 500px);
+    width: 100%;
+    background-image: var(--about-sky-image);
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.hill-container {
+    width: 100%;
+    min-height: 100vh;
+    margin-top: -28px;
+    padding: 100px 20px 70px;
+    text-align: center;
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    background-color: var(--brand-hill);
+    background-image: var(--about-hill-image);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.hill-container::before {
+    content: '';
+    position: absolute;
+    left: -8%;
+    top: -78px;
+    width: 116%;
+    height: 130px;
+    background-color: var(--brand-hill);
+    background-image: var(--about-hill-image);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.team-container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin: 30px 0 80px;
+}
+
+.member-card {
+    width: 220px;
+    flex: 0 0 220px;
+    text-align: center;
+}
+
+.member-card img,
+.director-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.member-card h3 {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+.director-card {
+    width: 250px;
+    margin: 0 auto 80px;
+    text-align: center;
+}
+
+.director-card h3 {
+    font-size: 1.4rem;
+    margin-top: 5px;
+}
+
+h2 {
+    margin: 50px 0 30px;
+    text-transform: uppercase;
+    font-size: 1.8rem;
+}
+
+@media (max-width: 768px) {
+    .about-hero {
+        height: 350px;
+    }
+
+    .hill-container,
+    .hill-container::before {
+        background-attachment: scroll;
+    }
+
+    .hill-container {
+        margin-top: -18px;
+        padding-top: 78px;
+    }
+
+    .hill-container::before {
+        top: -44px;
+        height: 74px;
+    }
+}
