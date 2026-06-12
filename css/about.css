@@ -101,7 +101,6 @@ body {
     object-fit: cover;
     border-radius: 50%;
     display: block;
-    border: 6px solid rgba(255,255,255,.95);
     box-shadow: 0 12px 26px rgba(0,0,0,.22);
 }
 
@@ -167,11 +166,6 @@ body {
         width: min(240px, 100%);
         margin-bottom: 78px;
     }
-
-    .member-card img,
-    .director-card img {
-        border-width: 5px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -187,3 +181,4 @@ body {
         font-size: 1rem;
     }
 }
+
