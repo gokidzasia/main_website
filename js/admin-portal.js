@@ -340,12 +340,39 @@
         });
     }
 
+    function setupCreditsModal() {
+        const trigger = document.getElementById('credits-trigger');
+        const modal = document.getElementById('credits-modal');
+        if (!trigger || !modal) return;
+
+        const closeButtons = modal.querySelectorAll('[data-credits-close]');
+        const openModal = () => {
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('credits-modal-open');
+            modal.querySelector('.credits-modal__close')?.focus();
+        };
+        const closeModal = () => {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('credits-modal-open');
+            trigger.focus();
+        };
+
+        trigger.addEventListener('click', openModal);
+        closeButtons.forEach((button) => button.addEventListener('click', closeModal));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+    }
+
     async function init() {
         createTeamRows();
         normalizeGridSettings();
         addUploadZones();
         addAssetPreviews();
         setupNavState();
+        setupCreditsModal();
         if (!await requireAuth()) return;
         await loadContent();
         loadFields();

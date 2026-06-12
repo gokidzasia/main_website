@@ -23,6 +23,7 @@
                 <a href="#responses-settings"><i class="fa-solid fa-table-list"></i> Responses</a>
             </nav>
             <button type="button" id="admin-logout" class="admin-logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+            <button type="button" id="credits-trigger" class="admin-credits-trigger">Powered by: GOKidz Asia Web Dev</button>
         </aside>
 
         <main class="admin-main">
@@ -107,9 +108,45 @@
         </main>
     </div>
 
+    <div class="credits-modal" id="credits-modal" aria-hidden="true">
+        <div class="credits-modal__overlay" data-credits-close></div>
+        <section class="credits-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="credits-modal-title">
+            <button type="button" class="credits-modal__close" data-credits-close aria-label="Close credits modal">&times;</button>
+            <div class="credits-modal__content">
+                <h2 id="credits-modal-title">Behind the Technology of GOKidz Asia</h2>
+                <p>This platform was designed and developed to support the mission of GOKidz Asia in sharing God's Word through digital innovation. The website provides a safe, engaging, and accessible online experience for children, parents, teachers, and ministry partners.</p>
+                <p>Built with a focus on reliability, performance, and user-friendly design, this system helps connect audiences with Christ-centered content, educational resources, videos, and ministry updates.</p>
+                <p>The GOKidz Asia web platform continues to evolve as new features and technologies are introduced to better serve its growing community and global outreach efforts.</p>
+
+                <h3>Web Development Team</h3>
+                <div class="credits-team">
+                    <article class="credits-person">
+                        <img src="about us/editor-3.png" alt="John Jacob Tamon">
+                        <div>
+                            <a href="https://www.facebook.com/jhnxcb" target="_blank" rel="noopener">John Jacob Tamon</a>
+                            <p>Lead Web Developer &amp; System Designer</p>
+                        </div>
+                    </article>
+                    <article class="credits-person">
+                        <div class="credits-person__placeholder" aria-hidden="true">PD</div>
+                        <div>
+                            <a href="https://www.facebook.com/pammy.dingal" target="_blank" rel="noopener">Pam Dingal</a>
+                            <p>Web Developer &amp; UI/UX Contributor</p>
+                        </div>
+                    </article>
+                </div>
+
+                <h3>GOKidz Asia</h3>
+                <blockquote>"Sharing God's Word with children through creativity, technology, and media."</blockquote>
+                <p class="credits-version">Version: 1.0.0</p>
+                <p class="credits-copyright">&copy; 2026 GOKidz Asia. All Rights Reserved.</p>
+            </div>
+        </section>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js?v=20260612-supabase"></script>
-    <script src="js/admin-portal.js?v=20260612-supabase"></script>
+    <script src="js/admin-portal.js?v=20260613-credits"></script>
 </body>
 </html>
 
