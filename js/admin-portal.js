@@ -211,7 +211,8 @@
     function animateNumber(target, value) {
         if (!target) return;
         const finalValue = Math.max(0, Number(value) || 0);
-        const startValue = finalValue > 0 ? 1 : 0;
+        const currentText = target.textContent.replace(/,/g, '');
+        const startValue = Number(currentText) || (finalValue > 0 ? 1 : 0);
         const duration = 900;
         const startedAt = performance.now();
 
@@ -289,6 +290,21 @@
         const totalVisits = (data || []).reduce((sum, row) => sum + (Number(row.total_visits) || 0), 0);
         setStat('#stat-total-visits', totalVisits);
         renderContentOverview(data || []);
+    }
+
+    function setupLiveStats() {
+        if (!supabaseClient) return;
+
+        window.setInterval(() => {
+            loadSiteStats().catch(() => {});
+        }, 15000);
+
+        supabaseClient
+            .channel('admin-site-stats')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'site_page_visits' }, () => {
+                loadSiteStats().catch(() => {});
+            })
+            .subscribe();
     }
 
     function addUploadZones() {
@@ -537,6 +553,7 @@
         if (!await requireAuth()) return;
         await loadContent();
         await loadSiteStats();
+        setupLiveStats();
         createTeamRows();
         addUploadZones();
         addAssetPreviews();
