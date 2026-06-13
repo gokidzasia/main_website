@@ -92,6 +92,7 @@
         addButton.insertAdjacentElement('beforebegin', createTeamRow(team, index));
         addUploadZones();
         addAssetPreviews();
+        updateTeamStats();
         showToast('Added a new person row.');
     }
 
@@ -105,6 +106,7 @@
         addUploadZones();
         addAssetPreviews();
         loadFields();
+        updateTeamStats();
         showToast('Removed person row. Click Save Draft to keep the change.');
     }
 
@@ -229,9 +231,18 @@
         animateNumber(document.querySelector(selector), value);
     }
 
+    function hasPerson(member) {
+        return Boolean(member?.name?.trim?.() || member?.image?.trim?.());
+    }
+
     function updateTeamStats() {
-        const producers = getByPath(content, 'about.producer');
-        setStat('#stat-prod-team', Array.isArray(producers) ? producers.filter((member) => member?.name || member?.image).length : 0);
+        const about = content.about || {};
+        const directorCount = hasPerson(about.director) ? 1 : 0;
+        const teamCount = Object.keys(teamMinimumCounts).reduce((total, team) => {
+            const members = about[team];
+            return total + (Array.isArray(members) ? members.filter(hasPerson).length : 0);
+        }, 0);
+        setStat('#stat-prod-team', directorCount + teamCount);
     }
 
     function renderContentOverview(rows) {
@@ -506,11 +517,23 @@
         updateButton();
     }
 
+    function setupStatsAutoUpdate() {
+        const aboutSection = document.getElementById('about-settings');
+        if (!aboutSection) return;
+
+        aboutSection.addEventListener('input', (event) => {
+            if (!event.target.matches('[data-setting^="about."]')) return;
+            collectFields();
+            updateTeamStats();
+        });
+    }
+
     async function init() {
         normalizeGridSettings();
         setupNavState();
         setupCreditsModal();
         setupScrollTop();
+        setupStatsAutoUpdate();
         if (!await requireAuth()) return;
         await loadContent();
         await loadSiteStats();
@@ -518,6 +541,7 @@
         addUploadZones();
         addAssetPreviews();
         loadFields();
+        updateTeamStats();
     }
 
     document.getElementById('save-all')?.addEventListener('click', () => {
