@@ -21,7 +21,6 @@
                 <a href="#home-settings"><i class="fa-solid fa-house"></i> Home</a>
                 <a href="#about-settings"><i class="fa-solid fa-users"></i> About Us</a>
                 <a href="#responses-settings"><i class="fa-solid fa-table-list"></i> Responses</a>
-                <a href="#admin-logs-settings"><i class="fa-solid fa-location-dot"></i> Admin Logs</a>
             </nav>
             <button type="button" id="admin-logout" class="admin-logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
             <button type="button" id="credits-trigger" class="admin-credits-trigger">Powered by: GOKidz Asia Web Dev</button>
@@ -107,25 +106,6 @@
                 </div>
             </section>
 
-            <section id="admin-logs-settings" class="admin-panel panel-logs">
-                <h2>Admin Login Logs</h2>
-                <p class="admin-note admin-log-note">Shows recent admin logins, device details, and browser-approved location.</p>
-                <div class="admin-log-table-wrap">
-                    <table class="admin-log-table">
-                        <thead>
-                            <tr>
-                                <th>Admin</th>
-                                <th>Device</th>
-                                <th>Location</th>
-                                <th>Login Time</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-login-logs">
-                            <tr><td colspan="4">Loading admin logs...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
         </main>
     </div>
 
@@ -171,7 +151,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js?v=20260612-supabase"></script>
-    <script src="js/admin-portal.js?v=20260613-login-logs"></script>
+    <script src="js/admin-portal.js?v=20260613-hide-login-logs"></script>
 </body>
 </html>
 

@@ -202,74 +202,6 @@
         showToast('Draft saved in browser only. Supabase is not connected yet.');
     }
 
-    function formatLoginTime(value) {
-        if (!value) return 'Unknown time';
-        return new Intl.DateTimeFormat(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit'
-        }).format(new Date(value));
-    }
-
-    function escapeHtml(value) {
-        return String(value ?? '').replace(/[&<>"']/g, (char) => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        }[char]));
-    }
-
-    function renderAdminLogs(logs, message = '') {
-        const target = document.getElementById('admin-login-logs');
-        if (!target) return;
-
-        if (message) {
-            target.innerHTML = `<tr><td colspan="4">${escapeHtml(message)}</td></tr>`;
-            return;
-        }
-
-        if (!logs.length) {
-            target.innerHTML = '<tr><td colspan="4">No admin logins recorded yet.</td></tr>';
-            return;
-        }
-
-        target.innerHTML = logs.map((log) => `
-            <tr>
-                <td><strong>${escapeHtml(log.email || 'Unknown admin')}</strong></td>
-                <td>${escapeHtml(log.device_label || [log.device_type, log.os, log.browser].filter(Boolean).join(' / ') || 'Unknown device')}</td>
-                <td>
-                    ${escapeHtml(log.location_label || 'Location unavailable')}
-                    ${log.location_permission === 'denied' ? '<small>Permission denied</small>' : ''}
-                </td>
-                <td>${formatLoginTime(log.created_at)}</td>
-            </tr>
-        `).join('');
-    }
-
-    async function loadAdminLogs() {
-        if (!supabaseClient) {
-            renderAdminLogs([], 'Admin logs need Supabase login.');
-            return;
-        }
-
-        const { data, error } = await supabaseClient
-            .from('admin_login_logs')
-            .select('email, device_label, device_type, browser, os, location_label, location_permission, created_at')
-            .order('created_at', { ascending: false })
-            .limit(50);
-
-        if (error) {
-            renderAdminLogs([], 'Admin logs table is not ready yet. Create it in Supabase first.');
-            return;
-        }
-
-        renderAdminLogs(data || []);
-    }
-
     function addUploadZones() {
         document.querySelectorAll('input[data-setting]').forEach((input) => {
             if (input.dataset.noUpload === 'true' || !isAssetField(input.dataset.setting) || input.closest('label').querySelector('.upload-zone')) return;
@@ -503,7 +435,6 @@
         setupScrollTop();
         if (!await requireAuth()) return;
         await loadContent();
-        await loadAdminLogs();
         createTeamRows();
         addUploadZones();
         addAssetPreviews();
