@@ -7,7 +7,7 @@
     width: 100%;
     height: calc(100svh - 84px);
     min-height: 560px;
-    background-color: var(--brand-dark);
+    background-color: var(--white);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -230,10 +230,6 @@
         height: auto;
         max-height: none;
         aspect-ratio: 16 / 9;
-    }
-
-    .hero-video-section video {
-        object-fit: contain;
     }
 
     .hero-video-section::after {
