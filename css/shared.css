@@ -16,9 +16,14 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     font-family: var(--font-stack);
-    overflow-x: hidden;
 }
 
 .reveal {
@@ -420,7 +425,7 @@ footer {
     .nav-links {
         position: fixed;
         top: 96px;
-        right: -100%;
+        right: 16px;
         width: 85%;
         max-width: 340px;
         height: calc(100dvh - 116px);
@@ -431,11 +436,12 @@ footer {
         padding: 56px 32px;
         border-radius: 20px;
         box-shadow: -5px 5px 25px rgba(0,0,0,0.15);
-        transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        transform: translateX(calc(100% + 32px));
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .nav-links.active {
-        right: 16px;
+        transform: translateX(0);
     }
 
     .nav-links > li {
