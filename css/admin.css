@@ -133,14 +133,12 @@ body.admin-portal-page {
     min-height: 100vh;
     display: grid;
     grid-template-columns: 280px 1fr;
-    align-items: stretch;
 }
 
 .admin-sidebar {
-    position: static;
-    align-self: stretch;
-    min-height: 100%;
-    height: auto;
+    position: sticky;
+    top: 0;
+    height: 100vh;
     background: #111;
     color: #fff;
     padding: 24px 18px;
@@ -181,6 +179,7 @@ body.admin-portal-page {
 }
 
 .admin-logout {
+    margin-top: auto;
     background: rgba(255,255,255,.08);
 }
 
