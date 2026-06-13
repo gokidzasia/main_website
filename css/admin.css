@@ -136,9 +136,8 @@ body.admin-portal-page {
 }
 
 .admin-sidebar {
-    position: sticky;
-    top: 0;
-    height: 100vh;
+    position: static;
+    min-height: 100vh;
     background: #111;
     color: #fff;
     padding: 24px 18px;
