@@ -202,6 +202,63 @@
         showToast('Draft saved in browser only. Supabase is not connected yet.');
     }
 
+    function formatNumber(value) {
+        return new Intl.NumberFormat().format(Number(value) || 0);
+    }
+
+    function setStat(selector, value) {
+        const target = document.querySelector(selector);
+        if (target) target.textContent = formatNumber(value);
+    }
+
+    function updateTeamStats() {
+        const producers = getByPath(content, 'about.producer');
+        setStat('#stat-prod-team', Array.isArray(producers) ? producers.filter((member) => member?.name || member?.image).length : 0);
+    }
+
+    function renderContentOverview(rows) {
+        const target = document.getElementById('content-overview');
+        if (!target) return;
+
+        const labels = {
+            home: 'Home',
+            about_us: 'About Us',
+            be_one_of_us: 'Be One of Us',
+            thank_you: 'Thank You'
+        };
+        const totals = Object.fromEntries((rows || []).map((row) => [row.page_key, Number(row.total_visits) || 0]));
+
+        target.innerHTML = Object.entries(labels).map(([key, label]) => `
+            <article>
+                <span>${label}</span>
+                <strong>${formatNumber(totals[key])}</strong>
+            </article>
+        `).join('');
+    }
+
+    async function loadSiteStats() {
+        updateTeamStats();
+
+        if (!supabaseClient) {
+            renderContentOverview([]);
+            return;
+        }
+
+        const { data, error } = await supabaseClient
+            .from('site_page_visits')
+            .select('page_key,total_visits')
+            .order('page_key', { ascending: true });
+
+        if (error) {
+            renderContentOverview([]);
+            return;
+        }
+
+        const totalVisits = (data || []).reduce((sum, row) => sum + (Number(row.total_visits) || 0), 0);
+        setStat('#stat-total-visits', totalVisits);
+        renderContentOverview(data || []);
+    }
+
     function addUploadZones() {
         document.querySelectorAll('input[data-setting]').forEach((input) => {
             if (input.dataset.noUpload === 'true' || !isAssetField(input.dataset.setting) || input.closest('label').querySelector('.upload-zone')) return;
@@ -435,6 +492,7 @@
         setupScrollTop();
         if (!await requireAuth()) return;
         await loadContent();
+        await loadSiteStats();
         createTeamRows();
         addUploadZones();
         addAssetPreviews();

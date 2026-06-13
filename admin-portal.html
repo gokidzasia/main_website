@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/shared.css?v=20260613-white-nav">
-    <link rel="stylesheet" href="css/admin.css?v=20260613-mobile-admin-fit">
+    <link rel="stylesheet" href="css/admin.css?v=20260613-site-stats">
 </head>
 <body class="admin-portal-page">
     <div class="admin-layout">
@@ -17,7 +17,8 @@
                 <img src="static-logo.png" alt="GOKidz Asia Logo">
             </a>
             <nav class="admin-nav" aria-label="Admin navigation">
-                <a href="#main-settings" class="active"><i class="fa-solid fa-sliders"></i> Main</a>
+                <a href="#stats-settings" class="active"><i class="fa-solid fa-chart-simple"></i> Stats</a>
+                <a href="#main-settings"><i class="fa-solid fa-sliders"></i> Main</a>
                 <a href="#home-settings"><i class="fa-solid fa-house"></i> Home</a>
                 <a href="#about-settings"><i class="fa-solid fa-users"></i> About Us</a>
                 <a href="#responses-settings"><i class="fa-solid fa-table-list"></i> Responses</a>
@@ -36,6 +37,28 @@
             </header>
 
             <p class="admin-note">Use this portal to update online content. Supabase saves changes to the live website after you log in.</p>
+
+            <section id="stats-settings" class="admin-panel panel-stats">
+                <h2>Stats</h2>
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <span>Total Site Visits</span>
+                        <strong id="stat-total-visits">0</strong>
+                    </article>
+                    <article class="stat-card">
+                        <span>Total Prod Team</span>
+                        <strong id="stat-prod-team">0</strong>
+                    </article>
+                </div>
+
+                <h3>Content Overview</h3>
+                <div class="content-overview" id="content-overview">
+                    <article><span>Home</span><strong>0</strong></article>
+                    <article><span>About Us</span><strong>0</strong></article>
+                    <article><span>Be One of Us</span><strong>0</strong></article>
+                    <article><span>Thank You</span><strong>0</strong></article>
+                </div>
+            </section>
 
             <section id="main-settings" class="admin-panel panel-main">
                 <h2>Main</h2>
@@ -151,7 +174,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js?v=20260612-supabase"></script>
-    <script src="js/admin-portal.js?v=20260613-hide-login-logs"></script>
+    <script src="js/admin-portal.js?v=20260613-site-stats"></script>
 </body>
 </html>
 
