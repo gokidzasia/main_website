@@ -31,15 +31,6 @@
             padding: 20px;
         }
 
-        .confetti-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-        
         .thank-you-card { 
             position: relative;
             z-index: 1;
@@ -113,8 +104,6 @@
 </head>
 <body>
 
-<canvas class="confetti-canvas" id="confettiCanvas" aria-hidden="true"></canvas>
-
 <div class="thank-you-card">
     <img src="welcome-header.png" alt="Welcome to GOKidz Asia" class="welcome-img">
     
@@ -143,76 +132,40 @@
     <a href="index.html" class="home-btn">Return to Home</a>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script>
     (function () {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (typeof confetti !== 'function') return;
 
-        const canvas = document.getElementById('confettiCanvas');
-        const context = canvas.getContext('2d');
         const colors = ['#7EE0D6', '#C6E970', '#FFBF60', '#FCEFA2', '#ffffff'];
-        const pieces = [];
-        const totalPieces = 130;
-        let animationFrame;
-        let startTime;
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        confetti({
+            particleCount: 180,
+            spread: 85,
+            origin: { y: 0.58 },
+            colors
+        });
 
-        function createPiece() {
-            return {
-                x: canvas.width / 2 + (Math.random() - 0.5) * 120,
-                y: canvas.height * 0.18 + Math.random() * 40,
-                size: 7 + Math.random() * 8,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                velocityX: (Math.random() - 0.5) * 9,
-                velocityY: 2 + Math.random() * 7,
-                rotation: Math.random() * Math.PI,
-                rotationSpeed: (Math.random() - 0.5) * 0.25,
-                gravity: 0.08 + Math.random() * 0.04,
-                opacity: 1
-            };
-        }
-
-        function drawPiece(piece) {
-            context.save();
-            context.globalAlpha = piece.opacity;
-            context.translate(piece.x, piece.y);
-            context.rotate(piece.rotation);
-            context.fillStyle = piece.color;
-            context.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size * 0.58);
-            context.restore();
-        }
-
-        function animate(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const elapsed = timestamp - startTime;
-
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            pieces.forEach((piece) => {
-                piece.x += piece.velocityX;
-                piece.y += piece.velocityY;
-                piece.velocityY += piece.gravity;
-                piece.rotation += piece.rotationSpeed;
-                piece.opacity = Math.max(0, 1 - elapsed / 3200);
-                drawPiece(piece);
+        const end = Date.now() + 2600;
+        (function frame() {
+            confetti({
+                particleCount: 5,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0, y: 0.72 },
+                colors
+            });
+            confetti({
+                particleCount: 5,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1, y: 0.72 },
+                colors
             });
 
-            if (elapsed < 3400) {
-                animationFrame = requestAnimationFrame(animate);
-            } else {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                window.removeEventListener('resize', resizeCanvas);
-            }
-        }
-
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        for (let index = 0; index < totalPieces; index += 1) pieces.push(createPiece());
-        animationFrame = requestAnimationFrame(animate);
-
-        window.addEventListener('pagehide', () => cancelAnimationFrame(animationFrame), { once: true });
+            if (Date.now() < end) requestAnimationFrame(frame);
+        }());
     })();
 </script>
 
