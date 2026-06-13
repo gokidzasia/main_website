@@ -10,9 +10,5 @@
         const opacity = Math.max(0, Math.min(1, 1 - (scrollPosition / sectionHeight)));
 
         heroVideo.style.opacity = opacity;
-
-        if (scrollPosition <= sectionHeight) {
-            heroVideo.style.transform = `translateY(${scrollPosition * 0.3}px)`;
-        }
     });
 })();
