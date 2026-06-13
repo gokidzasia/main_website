@@ -1,6 +1,6 @@
 (function () {
     const fallbackStorageKey = 'gokidzAdminDrafts';
-    const teamCounts = { staff: 4, editor: 7, producer: 6, performer: 6 };
+    const teamMinimumCounts = { staff: 4, editor: 7, producer: 6, performer: 6 };
     const assetKeys = ['favicon', 'Logo', 'Images', 'Video', 'Background', 'media', 'image', 'characters', 'footerLogo'];
     const supabaseClient = window.gokidzSupabaseClient?.();
     const supabaseConfig = window.GOKIDZ_SUPABASE;
@@ -45,20 +45,67 @@
         return false;
     }
 
+    function createTeamRow(team, index) {
+        const number = index + 1;
+        const row = document.createElement('div');
+        row.className = 'team-row';
+        row.innerHTML = `
+            <label>Image ${number}<input data-setting="about.${team}.${index}.image" type="text" placeholder="about us/${team}-${number}.png"></label>
+            <label>Name ${number}<input data-setting="about.${team}.${index}.name" type="text" placeholder="Name ${number}"></label>
+            <button type="button" class="remove-person-btn" aria-label="Remove person ${number}"><i class="fa-solid fa-trash"></i><span>Remove</span></button>
+        `;
+        row.querySelector('.remove-person-btn')?.addEventListener('click', () => removeTeamMember(team, index));
+        return row;
+    }
+
+    function createTeamAddButton(team) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'add-person-btn';
+        button.innerHTML = '<i class="fa-solid fa-user-plus"></i><span>Add person</span>';
+        button.addEventListener('click', () => addTeamMember(team));
+        return button;
+    }
+
     function createTeamRows() {
-        Object.entries(teamCounts).forEach(([team, count]) => {
+        Object.entries(teamMinimumCounts).forEach(([team, minimumCount]) => {
             const target = document.querySelector(`[data-team="${team}"]`);
-            if (!target || target.children.length) return;
-            for (let index = 1; index <= count; index += 1) {
-                const row = document.createElement('div');
-                row.className = 'team-row';
-                row.innerHTML = `
-                    <label>Image ${index}<input data-setting="about.${team}.${index - 1}.image" type="text" placeholder="about us/${team}-${index}.png"></label>
-                    <label>Name ${index}<input data-setting="about.${team}.${index - 1}.name" type="text" placeholder="Name ${index}"></label>
-                `;
-                target.appendChild(row);
+            if (!target) return;
+            const savedMembers = getByPath(content, `about.${team}`);
+            const count = Array.isArray(savedMembers) ? savedMembers.length : minimumCount;
+            target.innerHTML = '';
+
+            for (let index = 0; index < count; index += 1) {
+                target.appendChild(createTeamRow(team, index));
             }
+            target.appendChild(createTeamAddButton(team));
         });
+    }
+
+    function addTeamMember(team) {
+        collectFields();
+        const target = document.querySelector(`[data-team="${team}"]`);
+        const addButton = target?.querySelector('.add-person-btn');
+        if (!target || !addButton) return;
+
+        const index = target.querySelectorAll('.team-row').length;
+        addButton.insertAdjacentElement('beforebegin', createTeamRow(team, index));
+        addUploadZones();
+        addAssetPreviews();
+        showToast('Added a new person row.');
+    }
+
+    function removeTeamMember(team, index) {
+        collectFields();
+        const members = getByPath(content, `about.${team}`);
+        if (Array.isArray(members)) {
+            members.splice(index, 1);
+        }
+        createTeamRows();
+        addUploadZones();
+        addAssetPreviews();
+        loadFields();
+        showToast('Removed person row. Click Save Draft to keep the change.');
     }
 
     function normalizeGridSettings() {
@@ -367,14 +414,14 @@
     }
 
     async function init() {
-        createTeamRows();
         normalizeGridSettings();
-        addUploadZones();
-        addAssetPreviews();
         setupNavState();
         setupCreditsModal();
         if (!await requireAuth()) return;
         await loadContent();
+        createTeamRows();
+        addUploadZones();
+        addAssetPreviews();
         loadFields();
     }
 

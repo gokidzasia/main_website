@@ -274,14 +274,61 @@ body.admin-portal-page {
 
 .team-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr auto;
     gap: 12px;
     padding: 12px 0;
     border-top: 1px solid #edf2f2;
+    align-items: start;
 }
 
 .team-row:first-child {
     border-top: 0;
+}
+
+.add-person-btn {
+    width: 100%;
+    margin-top: 14px;
+    border: 0;
+    border-radius: 999px;
+    padding: 11px 16px;
+    background: var(--brand-orange);
+    color: var(--brand-dark);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font: inherit;
+    font-weight: 800;
+}
+
+.add-person-btn:hover,
+.add-person-btn:focus-visible {
+    background: var(--brand-turquoise);
+    outline: none;
+}
+
+.remove-person-btn {
+    margin-top: 28px;
+    border: 0;
+    border-radius: 999px;
+    padding: 10px 13px;
+    background: #ffe7e7;
+    color: #a82424;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 800;
+}
+
+.remove-person-btn:hover,
+.remove-person-btn:focus-visible {
+    background: #ffd0d0;
+    outline: none;
 }
 
 .save-toast {
@@ -327,6 +374,15 @@ body.admin-portal-page {
 
     .admin-topbar {
         display: grid;
+    }
+
+    .team-row {
+        grid-template-columns: 1fr;
+    }
+
+    .remove-person-btn {
+        width: 100%;
+        margin-top: 0;
     }
 
     .span-all {
