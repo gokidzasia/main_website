@@ -206,9 +206,27 @@
         return new Intl.NumberFormat().format(Number(value) || 0);
     }
 
+    function animateNumber(target, value) {
+        if (!target) return;
+        const finalValue = Math.max(0, Number(value) || 0);
+        const startValue = finalValue > 0 ? 1 : 0;
+        const duration = 900;
+        const startedAt = performance.now();
+
+        function tick(now) {
+            const progress = Math.min((now - startedAt) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const currentValue = Math.round(startValue + (finalValue - startValue) * eased);
+            target.textContent = formatNumber(currentValue);
+            if (progress < 1) requestAnimationFrame(tick);
+        }
+
+        target.textContent = formatNumber(startValue);
+        requestAnimationFrame(tick);
+    }
+
     function setStat(selector, value) {
-        const target = document.querySelector(selector);
-        if (target) target.textContent = formatNumber(value);
+        animateNumber(document.querySelector(selector), value);
     }
 
     function updateTeamStats() {
@@ -231,9 +249,12 @@
         target.innerHTML = Object.entries(labels).map(([key, label]) => `
             <article>
                 <span>${label}</span>
-                <strong>${formatNumber(totals[key])}</strong>
+                <strong data-stat-value="${totals[key] || 0}">0</strong>
             </article>
         `).join('');
+        target.querySelectorAll('[data-stat-value]').forEach((item) => {
+            animateNumber(item, item.dataset.statValue);
+        });
     }
 
     async function loadSiteStats() {
