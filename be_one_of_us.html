@@ -16,17 +16,16 @@
             --brand-dark: #111111;
             --white: #ffffff;
             --text-color: #333333;
-            --white: #ffffff;
-             --font-stack: 'Sniglet', cursive;
-
+            --font-stack: 'Sniglet', cursive;
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--brand-light-yellow); padding: 40px 20px; color: var(--brand-dark); }
-        /* Soft radial background gradient */
+        body {
             background: radial-gradient(circle, #fffdf0 0%, #fcefa2 100%);
             min-height: 100vh;
             padding: 40px 20px; 
             color: var(--brand-dark); 
-            font-family: var(--font-stack); /* Applied font globally */
+            font-family: var(--font-stack);
         }
 
         /* Ensure form elements also use the rounded font */
@@ -91,6 +90,34 @@
             box-shadow: 0 4px 10px rgba(255, 191, 96, 0.4);
         }
         button:hover { background-color: var(--brand-dark); color: var(--brand-orange); transform: translateY(-2px); }
+        button:disabled { cursor: wait; opacity: .92; transform: none; }
+        .submit-content {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .submit-lottie {
+            width: 32px;
+            height: 32px;
+            display: none;
+            flex: 0 0 32px;
+        }
+        button.is-loading,
+        button.is-success {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button.is-loading .submit-lottie,
+        button.is-success .submit-lottie {
+            display: block;
+        }
+        button.is-success {
+            background-color: var(--brand-lime);
+            color: var(--brand-dark);
+        }
         
         @media (max-width: 500px) {
             .checkbox-grid { grid-template-columns: 1fr; }
@@ -174,20 +201,59 @@
             </label>
         </div>
 
-        <button type="submit" id="submitBtn">I Volunteer</button>
+        <button type="submit" id="submitBtn">
+            <span class="submit-content">
+                <lottie-player class="submit-lottie" id="submitAnimation" background="transparent" speed="1"></lottie-player>
+                <span id="submitText">I Volunteer</span>
+            </span>
+        </button>
     </form>
 </div>
 
+<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <script>
     // Live GOKidz Asia Google Script Deployment Endpoint Link
 	const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVg65NFnSaOdbi-nnhFVztDU0TNiSFsWpSXuvpmC63KZFCEDc537KVyJGPB-hgcOZVkg/exec";
+    const LOADING_ANIMATION = "uploads/lottie/loading.json";
+    const SUCCESS_ANIMATION = "uploads/lottie/success.json";
+
+    function setSubmitState(state) {
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = document.getElementById('submitText');
+        const submitAnimation = document.getElementById('submitAnimation');
+
+        submitBtn.classList.remove('is-loading', 'is-success');
+        submitAnimation.removeAttribute('src');
+        submitAnimation.removeAttribute('loop');
+        submitAnimation.stop?.();
+
+        if (state === 'loading') {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('is-loading');
+            submitText.innerText = 'Loading...';
+            submitAnimation.setAttribute('src', LOADING_ANIMATION);
+            submitAnimation.setAttribute('loop', '');
+            submitAnimation.play?.();
+            return;
+        }
+
+        if (state === 'success') {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('is-success');
+            submitText.innerText = 'Submitted!';
+            submitAnimation.setAttribute('src', SUCCESS_ANIMATION);
+            submitAnimation.play?.();
+            return;
+        }
+
+        submitBtn.disabled = false;
+        submitText.innerText = 'I Volunteer';
+    }
 
     document.getElementById('volunteerForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.innerText = "Submitting Data...";
-        submitBtn.disabled = true;
+        setSubmitState('loading');
 
         const selectedContributions = [];
         document.querySelectorAll('input[name="contribution"]:checked').forEach((checkbox) => {
@@ -196,8 +262,7 @@
 
         if(selectedContributions.length === 0) {
             alert("Please select at least one Area of Contribution to serve in.");
-            submitBtn.innerText = "I Volunteer";
-            submitBtn.disabled = false;
+            setSubmitState('idle');
             return;
         }
 
@@ -219,13 +284,15 @@
         })
         .then(() => {
             document.getElementById('volunteerForm').reset();
-            window.location.href = "thank_you.html"; 
+            setSubmitState('success');
+            setTimeout(() => {
+                window.location.href = "thank_you.html";
+            }, 1100);
         })
         .catch(error => {
             alert('Network communication error occurred.');
             console.error('Error:', error);
-            submitBtn.innerText = "I Volunteer";
-            submitBtn.disabled = false;
+            setSubmitState('idle');
         });
     });
 </script>
