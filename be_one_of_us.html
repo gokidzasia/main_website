@@ -142,6 +142,73 @@
             background-color: var(--brand-lime);
             color: var(--brand-dark);
         }
+        .submit-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            place-items: center;
+            padding: 24px;
+            background: rgba(17,17,17,.58);
+        }
+        .submit-overlay.active {
+            display: grid;
+        }
+        .submit-modal {
+            width: min(360px, 100%);
+            background: var(--white);
+            border-radius: 28px;
+            border-top: 10px solid var(--brand-turquoise);
+            box-shadow: 0 24px 70px rgba(0,0,0,.3);
+            padding: 32px 28px;
+            text-align: center;
+        }
+        .submit-overlay.is-success .submit-modal {
+            border-top-color: var(--brand-lime);
+        }
+        .submit-modal-animation {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 18px;
+            position: relative;
+        }
+        .submit-overlay.is-loading .submit-modal-animation::before {
+            content: '';
+            position: absolute;
+            inset: 18px;
+            border: 10px solid rgba(17,17,17,.14);
+            border-top-color: var(--brand-turquoise);
+            border-radius: 50%;
+            animation: submitSpin .75s linear infinite;
+        }
+        .submit-overlay.is-success .submit-modal-animation::before {
+            content: '';
+            position: absolute;
+            left: 43px;
+            top: 22px;
+            width: 31px;
+            height: 58px;
+            border: solid var(--brand-dark);
+            border-width: 0 12px 12px 0;
+            transform: rotate(45deg);
+        }
+        .submit-modal-animation.has-animation::before {
+            display: none;
+        }
+        .submit-modal h3 {
+            margin: 0 0 10px;
+            color: var(--brand-dark);
+            font-size: 1.45rem;
+        }
+        .submit-modal p {
+            margin: 0;
+            color: #444;
+            font-size: 1rem;
+            line-height: 1.45;
+        }
+        body.submit-overlay-open {
+            overflow: hidden;
+        }
         @keyframes submitSpin {
             to { transform: rotate(360deg); }
         }
@@ -237,6 +304,14 @@
     </form>
 </div>
 
+<div class="submit-overlay" id="submitOverlay" aria-hidden="true">
+    <div class="submit-modal" role="status" aria-live="polite">
+        <div class="submit-modal-animation" id="submitModalAnimation" aria-hidden="true"></div>
+        <h3 id="submitModalTitle">Loading...</h3>
+        <p id="submitModalText">Sending your application.</p>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <script>
     // Live GOKidz Asia Google Script Deployment Endpoint Link
@@ -250,7 +325,7 @@
     }
 
     function renderSubmitAnimation(path, loop) {
-        const submitAnimation = document.getElementById('submitAnimation');
+        const submitAnimation = document.getElementById('submitModalAnimation');
         submitAnimation.innerHTML = '';
         submitAnimation.classList.remove('has-animation');
 
@@ -270,10 +345,19 @@
         const submitBtn = document.getElementById('submitBtn');
         const submitText = document.getElementById('submitText');
         const submitAnimation = document.getElementById('submitAnimation');
+        const submitOverlay = document.getElementById('submitOverlay');
+        const submitModalAnimation = document.getElementById('submitModalAnimation');
+        const submitModalTitle = document.getElementById('submitModalTitle');
+        const submitModalText = document.getElementById('submitModalText');
 
         submitBtn.classList.remove('is-loading', 'is-success');
+        submitOverlay.classList.remove('active', 'is-loading', 'is-success');
+        submitOverlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('submit-overlay-open');
         submitAnimation.classList.remove('has-animation');
         submitAnimation.innerHTML = '';
+        submitModalAnimation.classList.remove('has-animation');
+        submitModalAnimation.innerHTML = '';
         activeSubmitAnimation?.destroy();
         activeSubmitAnimation = null;
 
@@ -281,6 +365,11 @@
             submitBtn.disabled = true;
             submitBtn.classList.add('is-loading');
             submitText.innerText = 'Loading...';
+            submitOverlay.classList.add('active', 'is-loading');
+            submitOverlay.setAttribute('aria-hidden', 'false');
+            submitModalTitle.innerText = 'Loading...';
+            submitModalText.innerText = 'Sending your application.';
+            document.body.classList.add('submit-overlay-open');
             renderSubmitAnimation(LOADING_ANIMATION, true);
             return;
         }
@@ -289,6 +378,11 @@
             submitBtn.disabled = true;
             submitBtn.classList.add('is-success');
             submitText.innerText = 'Submitted!';
+            submitOverlay.classList.add('active', 'is-success');
+            submitOverlay.setAttribute('aria-hidden', 'false');
+            submitModalTitle.innerText = 'Submitted!';
+            submitModalText.innerText = 'Application submitted successfully.';
+            document.body.classList.add('submit-overlay-open');
             renderSubmitAnimation(SUCCESS_ANIMATION, false);
             return;
         }
@@ -330,14 +424,14 @@
             method: 'POST',
             body: JSON.stringify(applicantPayload) // Send straight as raw text string
             }),
-            wait(700)
+            wait(1200)
         ])
         .then(() => {
             document.getElementById('volunteerForm').reset();
             setSubmitState('success');
             setTimeout(() => {
                 window.location.href = "thank_you.html";
-            }, 1800);
+            }, 2500);
         })
         .catch(error => {
             alert('Network communication error occurred.');
