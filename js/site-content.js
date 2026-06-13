@@ -50,15 +50,17 @@
         video.preload = 'auto';
         video.muted = true;
         video.playsInline = true;
+        video.controls = false;
+        video.disablePictureInPicture = true;
         video.setAttribute('playsinline', '');
+        video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
+        video.removeAttribute('controls');
         const source = video.querySelector('source') || document.createElement('source');
         source.src = finalSrc;
         source.type = videoType(finalSrc);
         if (!source.parentElement) video.appendChild(source);
         video.load();
-        video.play?.().catch(() => {
-            video.controls = true;
-        });
+        video.play?.().catch(() => {});
     }
 
     function isVideo(src) {
@@ -144,17 +146,20 @@
                 video.loop = true;
                 video.muted = true;
                 video.playsInline = true;
+                video.controls = false;
                 oldMedia.replaceWith(video);
             }
             video.preload = 'auto';
             video.muted = true;
             video.playsInline = true;
+            video.controls = false;
+            video.disablePictureInPicture = true;
             video.setAttribute('playsinline', '');
+            video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
+            video.removeAttribute('controls');
             video.innerHTML = `<source src="${mediaPath(src)}" type="${videoType(src)}">`;
             video.load();
-            video.play?.().catch(() => {
-                video.controls = true;
-            });
+            video.play?.().catch(() => {});
         } else {
             let image = oldMedia.tagName.toLowerCase() === 'img' ? oldMedia : null;
             if (!image) {
