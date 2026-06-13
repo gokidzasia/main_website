@@ -534,7 +534,7 @@ body.admin-portal-page {
 .credits-modal__overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,.68);
+    background: rgba(17,17,17,.32);
 }
 
 .credits-modal__dialog {
