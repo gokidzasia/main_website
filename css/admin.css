@@ -755,13 +755,15 @@ body.credits-modal-open {
     overflow: hidden;
 }
 
-body.credits-modal-open .admin-sidebar {
-    z-index: 6000;
-}
-
 body.credits-modal-open .admin-scroll-top {
     opacity: 0;
     pointer-events: none;
+}
+
+@media (min-width: 921px) {
+    body.credits-modal-open .admin-sidebar {
+        z-index: 6000;
+    }
 }
 
 @media (max-width: 560px) {
