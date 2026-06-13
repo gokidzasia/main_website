@@ -99,10 +99,11 @@
             width: 100%;
         }
         .submit-lottie {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             display: none;
-            flex: 0 0 32px;
+            flex: 0 0 34px;
+            position: relative;
         }
         button.is-loading,
         button.is-success {
@@ -114,9 +115,35 @@
         button.is-success .submit-lottie {
             display: block;
         }
+        button.is-loading .submit-lottie::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border: 4px solid rgba(17,17,17,.18);
+            border-top-color: var(--brand-turquoise);
+            border-radius: 50%;
+            animation: submitSpin .75s linear infinite;
+        }
+        button.is-success .submit-lottie::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 6px;
+            width: 14px;
+            height: 22px;
+            border: solid var(--brand-dark);
+            border-width: 0 5px 5px 0;
+            transform: rotate(45deg);
+        }
+        .submit-lottie.has-animation::before {
+            display: none;
+        }
         button.is-success {
             background-color: var(--brand-lime);
             color: var(--brand-dark);
+        }
+        @keyframes submitSpin {
+            to { transform: rotate(360deg); }
         }
         
         @media (max-width: 500px) {
@@ -203,19 +230,41 @@
 
         <button type="submit" id="submitBtn">
             <span class="submit-content">
-                <lottie-player class="submit-lottie" id="submitAnimation" background="transparent" speed="1"></lottie-player>
+                <span class="submit-lottie" id="submitAnimation" aria-hidden="true"></span>
                 <span id="submitText">I Volunteer</span>
             </span>
         </button>
     </form>
 </div>
 
-<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <script>
     // Live GOKidz Asia Google Script Deployment Endpoint Link
 	const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVg65NFnSaOdbi-nnhFVztDU0TNiSFsWpSXuvpmC63KZFCEDc537KVyJGPB-hgcOZVkg/exec";
     const LOADING_ANIMATION = "uploads/lottie/loading.json";
     const SUCCESS_ANIMATION = "uploads/lottie/success.json";
+    let activeSubmitAnimation = null;
+
+    function wait(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    function renderSubmitAnimation(path, loop) {
+        const submitAnimation = document.getElementById('submitAnimation');
+        submitAnimation.innerHTML = '';
+        submitAnimation.classList.remove('has-animation');
+
+        if (!window.lottie) return;
+
+        activeSubmitAnimation = window.lottie.loadAnimation({
+            container: submitAnimation,
+            renderer: 'svg',
+            loop,
+            autoplay: true,
+            path
+        });
+        submitAnimation.classList.add('has-animation');
+    }
 
     function setSubmitState(state) {
         const submitBtn = document.getElementById('submitBtn');
@@ -223,17 +272,16 @@
         const submitAnimation = document.getElementById('submitAnimation');
 
         submitBtn.classList.remove('is-loading', 'is-success');
-        submitAnimation.removeAttribute('src');
-        submitAnimation.removeAttribute('loop');
-        submitAnimation.stop?.();
+        submitAnimation.classList.remove('has-animation');
+        submitAnimation.innerHTML = '';
+        activeSubmitAnimation?.destroy();
+        activeSubmitAnimation = null;
 
         if (state === 'loading') {
             submitBtn.disabled = true;
             submitBtn.classList.add('is-loading');
             submitText.innerText = 'Loading...';
-            submitAnimation.setAttribute('src', LOADING_ANIMATION);
-            submitAnimation.setAttribute('loop', '');
-            submitAnimation.play?.();
+            renderSubmitAnimation(LOADING_ANIMATION, true);
             return;
         }
 
@@ -241,8 +289,7 @@
             submitBtn.disabled = true;
             submitBtn.classList.add('is-success');
             submitText.innerText = 'Submitted!';
-            submitAnimation.setAttribute('src', SUCCESS_ANIMATION);
-            submitAnimation.play?.();
+            renderSubmitAnimation(SUCCESS_ANIMATION, false);
             return;
         }
 
@@ -278,16 +325,19 @@
         };
 
         // Fixed Fetch block to bypass local browser CORS blocking structures smoothly
-        fetch(GOOGLE_SCRIPT_URL, {
+        Promise.all([
+            fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
             body: JSON.stringify(applicantPayload) // Send straight as raw text string
-        })
+            }),
+            wait(700)
+        ])
         .then(() => {
             document.getElementById('volunteerForm').reset();
             setSubmitState('success');
             setTimeout(() => {
                 window.location.href = "thank_you.html";
-            }, 1100);
+            }, 1800);
         })
         .catch(error => {
             alert('Network communication error occurred.');
