@@ -21,7 +21,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background: var(--brand-lime);
+            position: relative;
+            overflow-x: hidden;
+            background: linear-gradient(180deg, #7EE0D6 0%, #BFF5F0 55%, #C6E970 56%, #8FCE47 100%);
             font-family: var(--font-stack);
             color: var(--brand-dark);
             min-height: 100vh;
@@ -29,6 +31,73 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            top: 0;
+            height: 62vh;
+            background:
+                radial-gradient(ellipse at 12% 62%, rgba(255,255,255,.9) 0 34px, transparent 35px),
+                radial-gradient(ellipse at 18% 64%, rgba(255,255,255,.78) 0 48px, transparent 49px),
+                radial-gradient(ellipse at 82% 30%, rgba(255,255,255,.82) 0 34px, transparent 35px),
+                radial-gradient(ellipse at 88% 32%, rgba(255,255,255,.72) 0 46px, transparent 47px),
+                linear-gradient(120deg, transparent 0 18%, rgba(255,255,255,.76) 19% 20%, transparent 21% 100%),
+                linear-gradient(160deg, transparent 0 66%, rgba(255,255,255,.55) 67% 68%, transparent 69% 100%);
+            animation: skyDrift 16s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        body::after {
+            bottom: 0;
+            height: 42vh;
+            background:
+                radial-gradient(ellipse at 18% 100%, #58B832 0 34%, transparent 35%),
+                radial-gradient(ellipse at 78% 100%, #1F7C18 0 42%, transparent 43%),
+                radial-gradient(ellipse at 52% 108%, #31B529 0 50%, transparent 51%);
+            z-index: 0;
+        }
+
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-shape {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--brand-orange);
+            opacity: .72;
+            animation: floatShape 9s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) { left: 9%; top: 18%; background: var(--brand-light-yellow); animation-delay: -1s; }
+        .floating-shape:nth-child(2) { left: 84%; top: 20%; width: 24px; height: 24px; background: var(--brand-orange); animation-delay: -3s; }
+        .floating-shape:nth-child(3) { left: 16%; bottom: 22%; width: 14px; height: 14px; background: var(--white); animation-delay: -5s; }
+        .floating-shape:nth-child(4) { right: 15%; bottom: 28%; background: var(--brand-light-yellow); animation-delay: -2s; }
+        .floating-shape:nth-child(5) { left: 50%; top: 12%; width: 12px; height: 12px; background: var(--white); animation-delay: -6s; }
+
+        @keyframes skyDrift {
+            from { transform: translateX(-18px); }
+            to { transform: translateX(18px); }
+        }
+
+        @keyframes floatShape {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-24px) scale(1.08); }
         }
 
         .thank-you-card { 
@@ -99,10 +168,25 @@
             transform: translateY(-3px); /* Lifts up on hover */
             box-shadow: 0 6px 15px rgba(0,0,0,0.2);
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            body::before,
+            .floating-shape {
+                animation: none;
+            }
+        }
     
     </style>
 </head>
 <body>
+
+<div class="animated-bg" aria-hidden="true">
+    <span class="floating-shape"></span>
+    <span class="floating-shape"></span>
+    <span class="floating-shape"></span>
+    <span class="floating-shape"></span>
+    <span class="floating-shape"></span>
+</div>
 
 <div class="thank-you-card">
     <img src="welcome-header.png" alt="Welcome to GOKidz Asia" class="welcome-img">
