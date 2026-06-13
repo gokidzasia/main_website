@@ -138,6 +138,7 @@ body.admin-portal-page {
 .admin-sidebar {
     position: sticky;
     top: 0;
+    z-index: 20;
     height: 100vh;
     background: #111;
     color: #fff;
@@ -349,6 +350,40 @@ body.admin-portal-page {
 .save-toast.active {
     opacity: 1;
     transform: translateY(0);
+}
+
+.admin-scroll-top {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 1200;
+    width: 52px;
+    height: 52px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--brand-orange);
+    color: var(--brand-dark);
+    box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 1.15rem;
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease, background .2s ease;
+}
+
+.admin-scroll-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.admin-scroll-top:hover,
+.admin-scroll-top:focus-visible {
+    background: var(--brand-turquoise);
+    outline: none;
 }
 
 @media (max-width: 920px) {
@@ -718,6 +753,15 @@ body.admin-portal-page {
 
 body.credits-modal-open {
     overflow: hidden;
+}
+
+body.credits-modal-open .admin-sidebar {
+    z-index: 6000;
+}
+
+body.credits-modal-open .admin-scroll-top {
+    opacity: 0;
+    pointer-events: none;
 }
 
 @media (max-width: 560px) {

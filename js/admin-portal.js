@@ -413,10 +413,26 @@
         });
     }
 
+    function setupScrollTop() {
+        const button = document.getElementById('admin-scroll-top');
+        if (!button) return;
+
+        const updateButton = () => {
+            button.classList.toggle('visible', window.scrollY > 420);
+        };
+
+        button.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        window.addEventListener('scroll', updateButton, { passive: true });
+        updateButton();
+    }
+
     async function init() {
         normalizeGridSettings();
         setupNavState();
         setupCreditsModal();
+        setupScrollTop();
         if (!await requireAuth()) return;
         await loadContent();
         createTeamRows();
