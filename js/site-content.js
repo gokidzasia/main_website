@@ -37,6 +37,11 @@
         if (element && src) element.src = src;
     }
 
+    function setMetaContent(selector, content) {
+        const element = document.querySelector(selector);
+        if (element && content) element.setAttribute('content', content);
+    }
+
     function mediaPath(src) {
         if (!src) return '';
         if (/^(https?:)?\/\//i.test(src) || src.startsWith('data:')) return src;
@@ -78,6 +83,11 @@
         const main = content.main;
         const favicon = document.querySelector('link[rel="icon"]');
         if (favicon && main.favicon) favicon.href = main.favicon;
+
+        if (main.thumbnail) {
+            setMetaContent('meta[property="og:image"]', main.thumbnail);
+            setMetaContent('meta[name="twitter:image"]', main.thumbnail);
+        }
 
         const headerLogo = document.getElementById('header-logo');
         if (headerLogo) {

@@ -1,7 +1,7 @@
 (function () {
     const fallbackStorageKey = 'gokidzAdminDrafts';
     const teamMinimumCounts = { staff: 4, editor: 7, producer: 6, performer: 6 };
-    const assetKeys = ['favicon', 'Logo', 'Images', 'Video', 'Background', 'media', 'image', 'characters', 'footerLogo'];
+    const assetKeys = ['favicon', 'Logo', 'Images', 'Video', 'Background', 'thumbnail', 'media', 'image', 'characters', 'footerLogo'];
     const supabaseClient = window.gokidzSupabaseClient?.();
     const supabaseConfig = window.GOKIDZ_SUPABASE;
     let content = {};
