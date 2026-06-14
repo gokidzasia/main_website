@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/shared.css?v=20260613-white-nav">
-    <link rel="stylesheet" href="css/admin.css?v=20260614-thumbnail">
+    <link rel="stylesheet" href="css/admin.css?v=20260614-admin-user">
 </head>
 <body class="admin-portal-page">
     <div class="admin-layout">
@@ -33,7 +33,17 @@
                     <p class="admin-kicker">GOKidz Asia</p>
                     <h1>Admin Portal</h1>
                 </div>
-                <button type="button" id="save-all" class="admin-primary-btn"><i class="fa-solid fa-floppy-disk"></i> Save Draft</button>
+                <div class="admin-topbar-actions">
+                    <article class="admin-user-card" id="admin-user-card" aria-live="polite">
+                        <div class="admin-user-photo" id="admin-user-photo" aria-hidden="true">A</div>
+                        <div class="admin-user-text">
+                            <span class="admin-user-label">Signed in as</span>
+                            <strong id="admin-user-name">Admin</strong>
+                            <a id="admin-user-email" href="mailto:gokidzasia@gmail.com">gokidzasia@gmail.com</a>
+                        </div>
+                    </article>
+                    <button type="button" id="save-all" class="admin-primary-btn"><i class="fa-solid fa-floppy-disk"></i> Save Draft</button>
+                </div>
             </header>
 
             <p class="admin-note">Use this portal to update online content. Supabase saves changes to the live website after you log in.</p>
@@ -175,7 +185,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js?v=20260612-supabase"></script>
-    <script src="js/admin-portal.js?v=20260614-thumbnail"></script>
+    <script src="js/admin-portal.js?v=20260614-admin-profiles"></script>
 </body>
 </html>
 

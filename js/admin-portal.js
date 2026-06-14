@@ -4,6 +4,32 @@
     const assetKeys = ['favicon', 'Logo', 'Images', 'Video', 'Background', 'thumbnail', 'media', 'image', 'characters', 'footerLogo'];
     const supabaseClient = window.gokidzSupabaseClient?.();
     const supabaseConfig = window.GOKIDZ_SUPABASE;
+    const adminProfilesByEmail = {
+        'gokidzasia@gmail.com': {
+            name: 'ADMIN',
+            photo: 'https://gjbgabyvdaqvauctfbzk.supabase.co/storage/v1/object/public/gokidz-assets/admin%20profile/gk%20admin.jpg'
+        },
+        'hopejoshua@gokidzasia.com': {
+            name: 'Hope Joshua Supetran',
+            photo: 'https://gjbgabyvdaqvauctfbzk.supabase.co/storage/v1/object/public/gokidz-assets/admin%20profile/hope%20admin.jpg'
+        },
+        'irisgwyn@gokidzasia.com': {
+            name: 'Iris Gwyn Abibiason',
+            photo: 'https://gjbgabyvdaqvauctfbzk.supabase.co/storage/v1/object/public/gokidz-assets/admin%20profile/iris%20admin.jpg'
+        },
+        'mayrose@gokidzasia.com': {
+            name: 'May Rose Rosarial',
+            photo: 'https://gjbgabyvdaqvauctfbzk.supabase.co/storage/v1/object/public/gokidz-assets/admin%20profile/may%20rose%20admin.jpg'
+        },
+        'johnphilip@gokidzasia.com': {
+            name: 'John Philip Ugay',
+            photo: 'https://gjbgabyvdaqvauctfbzk.supabase.co/storage/v1/object/public/gokidz-assets/admin%20profile/JP%20Admin.jpg'
+        },
+        'guest@gokidzasia.com': {
+            name: 'Guest',
+            photo: 'https://gjbgabyvdaqvauctfbzk.supabase.co/storage/v1/object/public/gokidz-assets/admin%20profile/guest%20admin.jpg'
+        }
+    };
     let content = {};
     let contentMode = 'browser';
 
@@ -31,16 +57,86 @@
         return migrated;
     }
 
+    function getUserDisplayName(user) {
+        const metadata = user?.user_metadata || {};
+        const profile = adminProfilesByEmail[user?.email?.toLowerCase()];
+        if (profile?.name) return profile.name;
+        return metadata.full_name
+            || metadata.name
+            || metadata.display_name
+            || user?.email?.split('@')[0]
+            || 'Admin';
+    }
+
+    function getUserPhoto(user) {
+        const metadata = user?.user_metadata || {};
+        const profile = adminProfilesByEmail[user?.email?.toLowerCase()];
+        return profile?.photo
+            || metadata.avatar_url
+            || metadata.picture
+            || metadata.photo_url
+            || metadata.image
+            || '';
+    }
+
+    function getInitials(name, email) {
+        const source = (name && name !== 'Admin' ? name : email || 'Admin').trim();
+        const words = source
+            .replace(/@.*/, '')
+            .split(/[\s._-]+/)
+            .filter(Boolean);
+        return (words.length > 1 ? words[0][0] + words[1][0] : source.slice(0, 2)).toUpperCase();
+    }
+
+    function renderAdminUser(user) {
+        const card = document.getElementById('admin-user-card');
+        const photo = document.getElementById('admin-user-photo');
+        const nameTarget = document.getElementById('admin-user-name');
+        const emailTarget = document.getElementById('admin-user-email');
+        if (!card || !photo || !nameTarget || !emailTarget) return;
+
+        const email = user?.email || supabaseConfig?.adminEmail || 'Admin email unavailable';
+        const name = getUserDisplayName(user);
+        const photoUrl = getUserPhoto(user);
+
+        nameTarget.textContent = name;
+        emailTarget.textContent = email;
+        emailTarget.href = email.includes('@') ? `mailto:${email}` : '#';
+
+        photo.classList.remove('has-image');
+        photo.innerHTML = '';
+
+        if (photoUrl) {
+            const image = document.createElement('img');
+            image.src = photoUrl;
+            image.alt = `${name} profile photo`;
+            image.addEventListener('error', () => {
+                photo.classList.remove('has-image');
+                photo.textContent = getInitials(name, email);
+            }, { once: true });
+            photo.classList.add('has-image');
+            photo.appendChild(image);
+        } else {
+            photo.textContent = getInitials(name, email);
+        }
+
+        card.classList.add('is-loaded');
+    }
+
     async function requireAuth() {
         if (supabaseClient) {
             const { data } = await supabaseClient.auth.getSession();
             if (data.session) {
                 sessionStorage.setItem('gokidzAdminAuthed', 'true');
+                renderAdminUser(data.session.user);
                 return true;
             }
         }
 
-        if (!supabaseClient && sessionStorage.getItem('gokidzAdminAuthed') === 'true') return true;
+        if (!supabaseClient && sessionStorage.getItem('gokidzAdminAuthed') === 'true') {
+            renderAdminUser(null);
+            return true;
+        }
         window.location.href = 'signup-admin.html';
         return false;
     }
