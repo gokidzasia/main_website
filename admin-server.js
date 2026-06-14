@@ -6,9 +6,11 @@ const crypto = require('crypto');
 
 const root = __dirname;
 const dataFile = path.join(root, 'data', 'site-content.json');
+const localSecretsFile = path.join(root, 'data', 'local-secrets.json');
 const uploadDir = path.join(root, 'uploads');
 const port = Number(process.env.PORT || 5500);
-const youtubeApiKey = process.env.YOUTUBE_API_KEY || '';
+const localSecrets = readLocalSecrets(localSecretsFile);
+const youtubeApiKey = process.env.YOUTUBE_API_KEY || localSecrets.youtubeApiKey || '';
 
 fs.mkdirSync(path.dirname(dataFile), { recursive: true });
 fs.mkdirSync(uploadDir, { recursive: true });
@@ -35,6 +37,14 @@ function send(res, status, body, type = 'text/plain; charset=utf-8') {
 
 function sendJson(res, status, value) {
   send(res, status, JSON.stringify(value), 'application/json; charset=utf-8');
+}
+
+function readLocalSecrets(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (error) {
+    return {};
+  }
 }
 
 function readJsonFromUrl(url) {
