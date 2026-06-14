@@ -101,7 +101,6 @@
 
         nameTarget.textContent = name;
         emailTarget.textContent = email;
-        emailTarget.href = email.includes('@') ? `mailto:${email}` : '#';
 
         photo.classList.remove('has-image');
         photo.innerHTML = '';

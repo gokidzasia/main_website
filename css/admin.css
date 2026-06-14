@@ -190,6 +190,15 @@ body.admin-portal-page {
 .admin-logout {
     margin-top: auto;
     background: rgba(255,255,255,.08);
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.admin-logout:hover,
+.admin-logout:focus-visible {
+    background: var(--brand-orange);
+    color: var(--brand-dark);
+    transform: translateX(4px);
+    outline: none;
 }
 
 .admin-main {
@@ -254,19 +263,11 @@ body.admin-portal-page {
 .admin-user-text {
     min-width: 0;
     display: grid;
-    gap: 2px;
-}
-
-.admin-user-label {
-    color: #60706e;
-    font-size: .72rem;
-    font-weight: 800;
-    line-height: 1;
-    text-transform: uppercase;
+    gap: 4px;
 }
 
 .admin-user-text strong,
-.admin-user-text a {
+.admin-user-text span {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -279,15 +280,10 @@ body.admin-portal-page {
     line-height: 1.2;
 }
 
-.admin-user-text a {
+.admin-user-text span {
     color: #4d625f;
     font-size: .9rem;
     font-weight: 700;
-    text-decoration: none;
-}
-
-.admin-user-text a:hover {
-    color: var(--brand-turquoise);
 }
 
 .admin-kicker {
