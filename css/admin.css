@@ -136,9 +136,12 @@ body.admin-portal-page {
 }
 
 .admin-sidebar {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    bottom: 0;
     z-index: 20;
+    width: 280px;
     height: 100vh;
     background: #111;
     color: #fff;
@@ -190,6 +193,7 @@ body.admin-portal-page {
 }
 
 .admin-main {
+    grid-column: 2;
     padding: 32px;
     display: grid;
     gap: 22px;
@@ -413,6 +417,7 @@ body.admin-portal-page {
     }
 
     .admin-main {
+        grid-column: auto;
         width: 100%;
         max-width: 100vw;
         min-width: 0;
