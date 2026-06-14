@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -7,6 +8,7 @@ const root = __dirname;
 const dataFile = path.join(root, 'data', 'site-content.json');
 const uploadDir = path.join(root, 'uploads');
 const port = Number(process.env.PORT || 5500);
+const youtubeApiKey = process.env.YOUTUBE_API_KEY || '';
 
 fs.mkdirSync(path.dirname(dataFile), { recursive: true });
 fs.mkdirSync(uploadDir, { recursive: true });
@@ -33,6 +35,30 @@ function send(res, status, body, type = 'text/plain; charset=utf-8') {
 
 function sendJson(res, status, value) {
   send(res, status, JSON.stringify(value), 'application/json; charset=utf-8');
+}
+
+function readJsonFromUrl(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, response => {
+      const chunks = [];
+      response.on('data', chunk => chunks.push(chunk));
+      response.on('end', () => {
+        const text = Buffer.concat(chunks).toString('utf8');
+        let payload = {};
+        try {
+          payload = JSON.parse(text);
+        } catch (error) {
+          return reject(new Error('YouTube returned an unreadable response'));
+        }
+
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          return reject(new Error(payload.error?.message || 'YouTube stats unavailable'));
+        }
+
+        resolve(payload);
+      });
+    }).on('error', reject);
+  });
 }
 
 function readBody(req) {
@@ -121,9 +147,59 @@ function parseMultipart(buffer, contentType) {
 
   return parts;
 }
+
+function normalizeYouTubeHandle(value) {
+  const trimmed = String(value || '').trim();
+  if (!trimmed) return '@GOKidzAsia';
+  if (/^UC[\w-]{20,}$/i.test(trimmed)) return trimmed;
+  return trimmed.startsWith('@') ? trimmed : `@${trimmed}`;
+}
+
+function youtubeStatsUrl(handle) {
+  const params = new URLSearchParams({
+    part: 'snippet,statistics',
+    key: youtubeApiKey
+  });
+
+  if (/^UC[\w-]{20,}$/i.test(handle)) {
+    params.set('id', handle);
+  } else {
+    params.set('forHandle', handle);
+  }
+
+  return `https://www.googleapis.com/youtube/v3/channels?${params.toString()}`;
+}
+
+function parseYouTubeStats(payload) {
+  const channel = payload?.items?.[0];
+  if (!channel) throw new Error('YouTube channel was not found');
+
+  const statistics = channel.statistics || {};
+  return {
+    title: channel.snippet?.title || '',
+    subscriberCount: statistics.hiddenSubscriberCount ? 0 : Number(statistics.subscriberCount) || 0,
+    viewCount: Number(statistics.viewCount) || 0,
+    videoCount: Number(statistics.videoCount) || 0
+  };
+}
 async function handleApi(req, res) {
   if (req.method === 'GET' && req.url === '/api/content') {
     return fs.promises.readFile(dataFile, 'utf8').then(data => send(res, 200, data, 'application/json; charset=utf-8'));
+  }
+
+  if (req.method === 'GET' && req.url.startsWith('/api/youtube-stats')) {
+    if (!youtubeApiKey) {
+      return sendJson(res, 503, { ok: false, error: 'Set YOUTUBE_API_KEY before starting the admin server.' });
+    }
+
+    try {
+      const requestUrl = new URL(req.url, `http://localhost:${port}`);
+      const handle = normalizeYouTubeHandle(requestUrl.searchParams.get('handle'));
+      const payload = await readJsonFromUrl(youtubeStatsUrl(handle));
+      return sendJson(res, 200, { ok: true, stats: parseYouTubeStats(payload) });
+    } catch (error) {
+      return sendJson(res, 502, { ok: false, error: error.message });
+    }
   }
 
   if (req.method === 'POST' && req.url === '/api/content') {
