@@ -483,13 +483,54 @@
     }
 
     function setupNavState() {
-        const navLinks = document.querySelectorAll('.admin-nav a');
+        const navLinks = Array.from(document.querySelectorAll('.admin-nav a[href^="#"]'));
+        const navItems = navLinks
+            .map((link) => {
+                const section = document.querySelector(link.getAttribute('href'));
+                return section ? { link, section } : null;
+            })
+            .filter(Boolean);
+
+        if (!navItems.length) return;
+
+        const setActiveLink = (activeLink) => {
+            navLinks.forEach((item) => item.classList.toggle('active', item === activeLink));
+        };
+
+        navItems.forEach(({ link, section }) => {
+            const accent = getComputedStyle(section).getPropertyValue('--panel-accent').trim();
+            if (accent) link.style.setProperty('--admin-nav-active-color', accent);
+        });
+
+        const updateActiveLink = () => {
+            const scrollPosition = window.scrollY + Math.min(window.innerHeight * 0.35, 260);
+            let activeItem = navItems[0];
+
+            navItems.forEach((item) => {
+                if (item.section.offsetTop <= scrollPosition) activeItem = item;
+            });
+
+            setActiveLink(activeItem.link);
+        };
+
         navLinks.forEach((link) => {
-            link.addEventListener('click', () => {
-                navLinks.forEach((item) => item.classList.remove('active'));
-                link.classList.add('active');
+            link.addEventListener('click', (event) => {
+                const target = document.querySelector(link.getAttribute('href'));
+                if (!target) return;
+
+                event.preventDefault();
+                setActiveLink(link);
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                if (history.pushState) {
+                    history.pushState(null, '', link.getAttribute('href'));
+                }
             });
         });
+
+        window.addEventListener('scroll', updateActiveLink, { passive: true });
+        window.addEventListener('resize', updateActiveLink);
+        updateActiveLink();
     }
 
     function setupCreditsModal() {

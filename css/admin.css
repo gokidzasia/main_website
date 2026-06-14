@@ -171,12 +171,17 @@ body.admin-portal-page {
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
 }
 
 .admin-nav a:hover,
 .admin-nav a.active {
     background: rgba(126,224,214,.16);
-    color: var(--brand-lime);
+    color: var(--admin-nav-active-color, var(--brand-lime));
+}
+
+.admin-nav a.active {
+    transform: translateX(4px);
 }
 
 .admin-logout {
