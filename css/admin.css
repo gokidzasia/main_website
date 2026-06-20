@@ -176,7 +176,13 @@ body.admin-portal-page {
     gap: 8px;
 }
 
+.admin-tool-links {
+    display: grid;
+    gap: 8px;
+}
+
 .admin-nav a,
+.admin-tool-links a,
 .admin-logout {
     color: #fff;
     text-decoration: none;
@@ -189,6 +195,25 @@ body.admin-portal-page {
     align-items: center;
     gap: 10px;
     transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.admin-tool-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,191,96,.12);
+    border: 1px solid rgba(255,191,96,.24);
+    color: #fff;
+    font-weight: 800;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.admin-tool-links a:hover,
+.admin-tool-links a:focus-visible {
+    background: var(--brand-orange);
+    color: var(--brand-dark);
+    transform: translateX(4px);
+    outline: none;
 }
 
 .admin-nav a:hover,
@@ -566,6 +591,7 @@ body.admin-portal-page {
     }
 
     .admin-nav a,
+    .admin-tool-links a,
     .admin-credits-trigger {
         min-width: 0;
         overflow-wrap: anywhere;
