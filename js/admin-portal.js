@@ -1,7 +1,6 @@
 (function () {
     const fallbackStorageKey = 'gokidzAdminDrafts';
-    const youtubeApiKeyStorageKey = 'gokidzYoutubeApiKey';
-    const youtubeStatsRefreshMs = 5 * 60 * 1000;
+    const livecountsUrl = 'https://livecounts.io/youtube-live-subscriber-counter/UCPGeomfR0yuYWj0Vg3dzldw';
     const teamMinimumCounts = { staff: 4, editor: 7, producer: 6, performer: 6 };
     const assetKeys = ['favicon', 'Logo', 'Images', 'Video', 'Background', 'thumbnail', 'media', 'image', 'characters', 'footerLogo'];
     const supabaseClient = window.gokidzSupabaseClient?.();
@@ -34,7 +33,6 @@
     };
     let content = {};
     let contentMode = 'browser';
-    let youtubeStatsLoading = false;
 
     function isAssetField(key) {
         return assetKeys.some((part) => key.toLowerCase().includes(part.toLowerCase()));
@@ -357,91 +355,13 @@
         return normalizeYouTubeHandle(getByPath(content, 'stats.youtubeHandle'));
     }
 
-    function getYouTubeApiKey() {
-        return document.getElementById('youtube-api-key')?.value.trim()
-            || localStorage.getItem(youtubeApiKeyStorageKey)
-            || '';
-    }
-
-    function updateYouTubeStats(stats) {
-        setStat('#stat-youtube-subscribers', stats.subscriberCount);
-        setStat('#stat-youtube-views', stats.viewCount);
-        setStat('#stat-youtube-videos', stats.videoCount);
-        setText('#stat-youtube-channel', stats.title || getYouTubeHandle());
-    }
-
-    function youTubeApiUrl(handle, apiKey) {
-        const params = new URLSearchParams({
-            part: 'snippet,statistics',
-            key: apiKey
-        });
-
-        if (/^UC[\w-]{20,}$/i.test(handle)) {
-            params.set('id', handle);
-        } else {
-            params.set('forHandle', handle);
-        }
-
-        return `https://www.googleapis.com/youtube/v3/channels?${params.toString()}`;
-    }
-
-    function parseYouTubeResponse(payload) {
-        const channel = payload?.items?.[0];
-        if (!channel) throw new Error('YouTube channel was not found.');
-
-        const statistics = channel.statistics || {};
-        return {
-            title: channel.snippet?.title || '',
-            subscriberCount: statistics.hiddenSubscriberCount ? 0 : statistics.subscriberCount,
-            viewCount: statistics.viewCount,
-            videoCount: statistics.videoCount
-        };
-    }
-
-    async function fetchYouTubeStatsFromServer(handle) {
-        const response = await fetch(`/api/youtube-stats?handle=${encodeURIComponent(handle)}`, { cache: 'no-store' });
-        if (!response.ok) throw new Error('Local YouTube stats are not configured.');
-        const result = await response.json();
-        if (!result.ok) throw new Error(result.error || 'YouTube stats unavailable.');
-        return result.stats;
-    }
-
-    async function fetchYouTubeStatsFromBrowser(handle, apiKey) {
-        if (!apiKey) throw new Error('Add a YouTube API key to show live stats.');
-        const response = await fetch(youTubeApiUrl(handle, apiKey), { cache: 'no-store' });
-        const payload = await response.json().catch(() => ({}));
-        if (!response.ok) {
-            throw new Error(payload?.error?.message || 'YouTube stats unavailable.');
-        }
-        return parseYouTubeResponse(payload);
-    }
-
-    async function loadYouTubeStats(options = {}) {
-        if (youtubeStatsLoading) return;
-        youtubeStatsLoading = true;
+    function loadYouTubeStats() {
         const handle = getYouTubeHandle();
-        if (!options.silent) setYouTubeStatus(`Loading YouTube stats for ${handle}...`, 'loading');
-
-        try {
-            try {
-                const stats = await fetchYouTubeStatsFromServer(handle);
-                updateYouTubeStats(stats);
-                setYouTubeStatus(`YouTube stats auto-refresh every 5 minutes. Last updated ${formatStatusTime()}.`, 'ready');
-                return;
-            } catch (serverError) {
-                try {
-                    const stats = await fetchYouTubeStatsFromBrowser(handle, getYouTubeApiKey());
-                    updateYouTubeStats(stats);
-                    setYouTubeStatus(`YouTube stats auto-refresh every 5 minutes. Last updated ${formatStatusTime()}.`, 'ready');
-                } catch (browserError) {
-                    setYouTubeStatus(browserError.message || serverError.message, 'error');
-                }
-            }
-        } catch (serverError) {
-            setYouTubeStatus(serverError.message, 'error');
-        } finally {
-            youtubeStatsLoading = false;
-        }
+        setText('#stat-youtube-channel', handle);
+        setText('#stat-youtube-subscribers', 'Livecounts');
+        setText('#stat-youtube-views', 'Open');
+        setText('#stat-youtube-videos', 'Not used');
+        setYouTubeStatus(`Live subscriber count is shown through Livecounts for ${handle}. No YouTube API key is needed.`, 'ready');
     }
 
     function hasPerson(member) {
@@ -505,47 +425,12 @@
     }
 
     function setupYouTubeStats() {
-        const apiKeyInput = document.getElementById('youtube-api-key');
-        const refreshButton = document.getElementById('refresh-youtube-stats');
-        const savedApiKey = localStorage.getItem(youtubeApiKeyStorageKey);
-        let refreshTimer = null;
-
-        if (apiKeyInput && savedApiKey) apiKeyInput.value = savedApiKey;
-
-        apiKeyInput?.addEventListener('change', () => {
-            const value = apiKeyInput.value.trim();
-            if (value) {
-                localStorage.setItem(youtubeApiKeyStorageKey, value);
-                setYouTubeStatus('YouTube API key saved on this browser.', 'ready');
-            } else {
-                localStorage.removeItem(youtubeApiKeyStorageKey);
-                setYouTubeStatus('YouTube API key removed from this browser.', 'error');
-            }
-        });
+        document.getElementById('open-livecounts')?.setAttribute('href', livecountsUrl);
+        document.getElementById('livecounts-frame')?.setAttribute('src', livecountsUrl);
 
         document.querySelector('[data-setting="stats.youtubeHandle"]')?.addEventListener('change', () => {
             collectFields();
-            loadYouTubeStats().catch((error) => setYouTubeStatus(error.message, 'error'));
-        });
-
-        refreshButton?.addEventListener('click', () => {
-            collectFields();
-            if (apiKeyInput?.value.trim()) localStorage.setItem(youtubeApiKeyStorageKey, apiKeyInput.value.trim());
-            loadYouTubeStats().catch((error) => setYouTubeStatus(error.message, 'error'));
-        });
-
-        refreshTimer = window.setInterval(() => {
-            if (document.hidden) return;
-            loadYouTubeStats({ silent: true }).catch((error) => setYouTubeStatus(error.message, 'error'));
-        }, youtubeStatsRefreshMs);
-
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) return;
-            loadYouTubeStats({ silent: true }).catch((error) => setYouTubeStatus(error.message, 'error'));
-        });
-
-        window.addEventListener('beforeunload', () => {
-            if (refreshTimer) window.clearInterval(refreshTimer);
+            loadYouTubeStats();
         });
     }
 
@@ -852,7 +737,7 @@
         await loadContent();
         await loadSiteStats();
         setupYouTubeStats();
-        await loadYouTubeStats();
+        loadYouTubeStats();
         setupLiveStats();
         createTeamRows();
         addUploadZones();

@@ -254,7 +254,10 @@ const server = http.createServer(async (req, res) => {
     if (stat.isDirectory()) filePath = path.join(filePath, 'index.html');
 
     const ext = path.extname(filePath).toLowerCase();
-    res.writeHead(200, { 'Content-Type': mimeTypes[ext] || 'application/octet-stream' });
+    res.writeHead(200, {
+      'Content-Type': mimeTypes[ext] || 'application/octet-stream',
+      'Cache-Control': 'no-store'
+    });
     fs.createReadStream(filePath).pipe(res);
   } catch (error) {
     sendJson(res, 500, { ok: false, error: error.message });
