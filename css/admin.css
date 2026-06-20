@@ -784,29 +784,6 @@ body.admin-portal-page {
     background: rgba(255,255,255,.72);
 }
 
-.livecounts-link {
-    min-height: 47px;
-    white-space: nowrap;
-}
-
-.livecounts-frame-wrap {
-    grid-column: 1 / -1;
-    width: 100%;
-    height: min(64vh, 620px);
-    min-height: 430px;
-    overflow: hidden;
-    border: 1px solid #d9eeee;
-    border-radius: 8px;
-    background: #fff;
-}
-
-.livecounts-frame-wrap iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-}
-
 .stats-status {
     grid-column: 1 / -1;
     min-height: 22px;
@@ -873,15 +850,6 @@ body.admin-portal-page {
 
     .youtube-stats-settings {
         grid-template-columns: 1fr;
-    }
-
-    .livecounts-link {
-        white-space: normal;
-    }
-
-    .livecounts-frame-wrap {
-        height: 70vh;
-        min-height: 380px;
     }
 }
 

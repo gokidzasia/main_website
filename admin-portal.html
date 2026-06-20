@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/shared.css?v=20260613-white-nav">
-    <link rel="stylesheet" href="css/admin.css?v=20260620-livecounts">
+    <link rel="stylesheet" href="css/admin.css?v=20260620-secure-youtube">
 </head>
 <body class="admin-portal-page">
     <div class="admin-layout">
@@ -60,15 +60,15 @@
                     </article>
                     <article class="stat-card youtube-stat-card">
                         <span>YouTube Subscribers</span>
-                        <strong id="stat-youtube-subscribers">Livecounts</strong>
+                        <strong id="stat-youtube-subscribers">0</strong>
                     </article>
                     <article class="stat-card youtube-stat-card">
-                        <span>Live Source</span>
-                        <strong id="stat-youtube-views">Open</strong>
+                        <span>YouTube Views</span>
+                        <strong id="stat-youtube-views">0</strong>
                     </article>
                     <article class="stat-card youtube-stat-card">
-                        <span>API Key</span>
-                        <strong id="stat-youtube-videos">Not used</strong>
+                        <span>YouTube Videos</span>
+                        <strong id="stat-youtube-videos">0</strong>
                     </article>
                     <article class="stat-card youtube-channel-card">
                         <span>YouTube Channel</span>
@@ -78,16 +78,8 @@
 
                 <div class="youtube-stats-settings">
                     <label>YouTube Channel Handle<input data-setting="stats.youtubeHandle" type="text" placeholder="@GOKidzAsia"></label>
-                    <a id="open-livecounts" class="admin-secondary-btn livecounts-link" href="https://livecounts.io/youtube-live-subscriber-counter/UCPGeomfR0yuYWj0Vg3dzldw" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> Open Livecounts</a>
-                    <p id="youtube-stats-status" class="stats-status" aria-live="polite">YouTube stats open through Livecounts. No API key is stored.</p>
-                    <div class="livecounts-frame-wrap">
-                        <iframe
-                            id="livecounts-frame"
-                            src="https://livecounts.io/youtube-live-subscriber-counter/UCPGeomfR0yuYWj0Vg3dzldw"
-                            title="GOKidz Asia Live YouTube Subscriber Count"
-                            loading="lazy">
-                        </iframe>
-                    </div>
+                    <button type="button" id="refresh-youtube-stats" class="admin-secondary-btn"><i class="fa-brands fa-youtube"></i> Refresh YouTube</button>
+                    <p id="youtube-stats-status" class="stats-status" aria-live="polite">YouTube stats use the secured server API key.</p>
                 </div>
 
                 <h3>Content Overview</h3>
@@ -214,6 +206,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js?v=20260612-supabase"></script>
-    <script src="js/admin-portal.js?v=20260620-livecounts"></script>
+    <script src="js/admin-portal.js?v=20260620-secure-youtube"></script>
 </body>
 </html>

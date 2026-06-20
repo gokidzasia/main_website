@@ -1,6 +1,6 @@
 (function () {
     const fallbackStorageKey = 'gokidzAdminDrafts';
-    const livecountsUrl = 'https://livecounts.io/youtube-live-subscriber-counter/UCPGeomfR0yuYWj0Vg3dzldw';
+    const youtubeStatsRefreshMs = 5 * 60 * 1000;
     const teamMinimumCounts = { staff: 4, editor: 7, producer: 6, performer: 6 };
     const assetKeys = ['favicon', 'Logo', 'Images', 'Video', 'Background', 'thumbnail', 'media', 'image', 'characters', 'footerLogo'];
     const supabaseClient = window.gokidzSupabaseClient?.();
@@ -33,6 +33,7 @@
     };
     let content = {};
     let contentMode = 'browser';
+    let youtubeStatsLoading = false;
 
     function isAssetField(key) {
         return assetKeys.some((part) => key.toLowerCase().includes(part.toLowerCase()));
@@ -355,13 +356,38 @@
         return normalizeYouTubeHandle(getByPath(content, 'stats.youtubeHandle'));
     }
 
-    function loadYouTubeStats() {
+    function updateYouTubeStats(stats) {
+        setStat('#stat-youtube-subscribers', stats.subscriberCount);
+        setStat('#stat-youtube-views', stats.viewCount);
+        setStat('#stat-youtube-videos', stats.videoCount);
+        setText('#stat-youtube-channel', stats.title || getYouTubeHandle());
+    }
+
+    async function fetchYouTubeStats(handle) {
+        const response = await fetch(`/api/youtube-stats?handle=${encodeURIComponent(handle)}`, { cache: 'no-store' });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.ok) {
+            throw new Error(result.error || 'YouTube stats unavailable.');
+        }
+        return result.stats;
+    }
+
+    async function loadYouTubeStats(options = {}) {
+        if (youtubeStatsLoading) return;
+        youtubeStatsLoading = true;
         const handle = getYouTubeHandle();
-        setText('#stat-youtube-channel', handle);
-        setText('#stat-youtube-subscribers', 'Livecounts');
-        setText('#stat-youtube-views', 'Open');
-        setText('#stat-youtube-videos', 'Not used');
-        setYouTubeStatus(`Live subscriber count is shown through Livecounts for ${handle}. No YouTube API key is needed.`, 'ready');
+        if (!options.silent) setYouTubeStatus(`Loading YouTube stats for ${handle}...`, 'loading');
+
+        try {
+            const stats = await fetchYouTubeStats(handle);
+            updateYouTubeStats(stats);
+            setYouTubeStatus(`YouTube stats use the secured server API key. Last updated ${formatStatusTime()}.`, 'ready');
+        } catch (error) {
+            setText('#stat-youtube-channel', handle);
+            setYouTubeStatus(error.message, 'error');
+        } finally {
+            youtubeStatsLoading = false;
+        }
     }
 
     function hasPerson(member) {
@@ -425,12 +451,31 @@
     }
 
     function setupYouTubeStats() {
-        document.getElementById('open-livecounts')?.setAttribute('href', livecountsUrl);
-        document.getElementById('livecounts-frame')?.setAttribute('src', livecountsUrl);
+        const refreshButton = document.getElementById('refresh-youtube-stats');
+        let refreshTimer = null;
 
         document.querySelector('[data-setting="stats.youtubeHandle"]')?.addEventListener('change', () => {
             collectFields();
-            loadYouTubeStats();
+            loadYouTubeStats().catch((error) => setYouTubeStatus(error.message, 'error'));
+        });
+
+        refreshButton?.addEventListener('click', () => {
+            collectFields();
+            loadYouTubeStats().catch((error) => setYouTubeStatus(error.message, 'error'));
+        });
+
+        refreshTimer = window.setInterval(() => {
+            if (document.hidden) return;
+            loadYouTubeStats({ silent: true }).catch((error) => setYouTubeStatus(error.message, 'error'));
+        }, youtubeStatsRefreshMs);
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) return;
+            loadYouTubeStats({ silent: true }).catch((error) => setYouTubeStatus(error.message, 'error'));
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (refreshTimer) window.clearInterval(refreshTimer);
         });
     }
 
@@ -737,7 +782,7 @@
         await loadContent();
         await loadSiteStats();
         setupYouTubeStats();
-        loadYouTubeStats();
+        await loadYouTubeStats();
         setupLiveStats();
         createTeamRows();
         addUploadZones();
