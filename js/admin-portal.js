@@ -246,6 +246,20 @@
         }
     }
 
+    async function ensureHomeContentDefaults() {
+        try {
+            const response = await fetch('data/site-content.json', { cache: 'no-store' });
+            if (!response.ok) return;
+            const defaults = await response.json();
+            if (!defaults?.home?.partners) return;
+            if (!content.home || typeof content.home !== 'object') content.home = {};
+            if (!content.home.partners || typeof content.home.partners !== 'object') content.home.partners = {};
+            mergeMissing(content.home.partners, defaults.home.partners);
+        } catch (error) {
+            // Static defaults are helpful, but not required for editing.
+        }
+    }
+
     function normalizeAboutContentArrays() {
         ['mission', 'training', 'plus'].forEach((section) => {
             const images = getByPath(content, `about.content.${section}.images`);
@@ -824,6 +838,7 @@
         setupStatsAutoUpdate();
         if (!await requireAuth()) return;
         await loadContent();
+        await ensureHomeContentDefaults();
         await ensureAboutContentDefaults();
         normalizeAboutContentArrays();
         await loadSiteStats();

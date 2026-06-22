@@ -142,6 +142,33 @@
             setTextIn(item, '.square-overlay p', grid.description);
             updateMedia(item, grid.media);
         });
+
+        applyPartners(home.partners);
+    }
+
+    function applyPartners(partners) {
+        const section = document.querySelector('.partners-section');
+        if (!section || !partners) return;
+
+        setTextIn(section, 'h2', partners.title);
+
+        const track = section.querySelector('.partners-track');
+        const logos = (partners.logos || []).filter((logo) => logo?.image);
+        if (!track || !logos.length) return;
+
+        track.innerHTML = '';
+        [...logos, ...logos].forEach((logo, index) => {
+            const image = document.createElement('img');
+            image.src = mediaPath(logo.image);
+            image.alt = logo.alt || '';
+            image.width = 240;
+            image.height = 150;
+            image.loading = 'lazy';
+            image.decoding = 'async';
+            image.fetchPriority = 'low';
+            if (index >= logos.length) image.setAttribute('aria-hidden', 'true');
+            track.appendChild(image);
+        });
     }
 
     function setTextIn(root, selector, text) {

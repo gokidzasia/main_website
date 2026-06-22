@@ -55,7 +55,39 @@
         "hoverTitle": "Partner Platforms",
         "description": "See our collaborative network and resource alliances keeping local hubs active and equipped."
       }
-    ]
+    ],
+    "partners": {
+      "title": "Our Partners",
+      "logos": [
+        {
+          "image": "Partners/53.png"
+        },
+        {
+          "image": "Partners/54.png"
+        },
+        {
+          "image": "Partners/55.png"
+        },
+        {
+          "image": "Partners/56.png"
+        },
+        {
+          "image": "Partners/57.png"
+        },
+        {
+          "image": "Partners/58.png"
+        },
+        {
+          "image": "Partners/59.png"
+        },
+        {
+          "image": "Partners/60.png"
+        },
+        {
+          "image": "Partners/61.png"
+        }
+      ]
+    }
   },
   "about": {
     "content": {
