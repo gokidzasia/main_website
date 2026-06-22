@@ -164,6 +164,27 @@
         return button;
     }
 
+    function createPartnerLogoRow(index) {
+        const number = index + 1;
+        const row = document.createElement('div');
+        row.className = 'partner-logo-row';
+        row.innerHTML = `
+            <label>Logo ${number}<input data-setting="home.partners.logos.${index}.image" type="text" placeholder="Partners/logo-${number}.png"></label>
+            <button type="button" class="remove-person-btn" aria-label="Remove partner logo ${number}"><i class="fa-solid fa-trash"></i><span>Remove</span></button>
+        `;
+        row.querySelector('.remove-person-btn')?.addEventListener('click', () => removePartnerLogo(index));
+        return row;
+    }
+
+    function createPartnerLogoAddButton() {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'add-person-btn';
+        button.innerHTML = '<i class="fa-solid fa-plus"></i><span>Add logo</span>';
+        button.addEventListener('click', addPartnerLogo);
+        return button;
+    }
+
     function createTeamRows() {
         Object.entries(teamMinimumCounts).forEach(([team, minimumCount]) => {
             const target = document.querySelector(`[data-team="${team}"]`);
@@ -177,6 +198,20 @@
             }
             target.appendChild(createTeamAddButton(team));
         });
+    }
+
+    function createPartnerLogoRows() {
+        const target = document.querySelector('[data-partner-logos]');
+        if (!target) return;
+
+        const logos = getByPath(content, 'home.partners.logos');
+        const count = Array.isArray(logos) && logos.length ? logos.length : 1;
+        target.innerHTML = '';
+
+        for (let index = 0; index < count; index += 1) {
+            target.appendChild(createPartnerLogoRow(index));
+        }
+        target.appendChild(createPartnerLogoAddButton());
     }
 
     function addTeamMember(team) {
@@ -193,6 +228,18 @@
         showToast('Added a new person row.');
     }
 
+    function addPartnerLogo() {
+        collectFields();
+        const logos = getByPath(content, 'home.partners.logos');
+        if (!Array.isArray(logos)) setByPath(content, 'home.partners.logos', []);
+        getByPath(content, 'home.partners.logos').push({ image: '' });
+        createPartnerLogoRows();
+        addUploadZones();
+        addAssetPreviews();
+        loadFields();
+        showToast('Added a new partner logo row.');
+    }
+
     function removeTeamMember(team, index) {
         collectFields();
         const members = getByPath(content, `about.${team}`);
@@ -205,6 +252,19 @@
         loadFields();
         updateTeamStats();
         showToast('Removed person row. Click Save Draft to keep the change.');
+    }
+
+    function removePartnerLogo(index) {
+        collectFields();
+        const logos = getByPath(content, 'home.partners.logos');
+        if (Array.isArray(logos)) {
+            logos.splice(index, 1);
+        }
+        createPartnerLogoRows();
+        addUploadZones();
+        addAssetPreviews();
+        loadFields();
+        showToast('Removed partner logo row. Click Save Draft to keep the change.');
     }
 
     function normalizeGridSettings() {
@@ -849,6 +909,7 @@
         await loadYouTubeStats();
         setupLiveStats();
         createTeamRows();
+        createPartnerLogoRows();
         addUploadZones();
         addAssetPreviews();
         loadFields();

@@ -406,6 +406,19 @@ body.admin-portal-page {
     align-items: start;
 }
 
+.partner-logo-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: start;
+    padding: 12px 0;
+    border-top: 1px solid #edf2f2;
+}
+
+.partner-logo-row:first-child {
+    border-top: 0;
+}
+
 .team-row:first-child {
     border-top: 0;
 }
@@ -602,6 +615,10 @@ body.admin-portal-page {
     }
 
     .team-row {
+        grid-template-columns: 1fr;
+    }
+
+    .partner-logo-row {
         grid-template-columns: 1fr;
     }
 
@@ -867,6 +884,13 @@ body.admin-portal-page {
 .department-performer { --panel-accent: #ff9eb3; background: #fff3f6; border-color: #ffc2cf; }
 
 .team-row {
+    background: rgba(255,255,255,.72);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.partner-logo-row {
     background: rgba(255,255,255,.72);
     border-radius: 8px;
     padding: 12px;
