@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - GOKidz Asia</title>
+    <link class="favicon" rel="icon" type="image/png" href="favicon-baby-face-yellow.png">
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/shared.css?v=20260613-white-nav">
+    <style>
+        body {
+            min-height: 100vh;
+            color: var(--brand-dark);
+            background:
+                linear-gradient(180deg, rgba(223, 247, 255, .92), rgba(255, 255, 255, .96)),
+                url('about us/about-sky-header.png');
+            background-size: cover;
+            background-position: center top;
+        }
+
+        .not-found {
+            min-height: calc(100vh - 86px);
+            display: grid;
+            place-items: center;
+            padding: clamp(42px, 8vw, 90px) 20px;
+            text-align: center;
+        }
+
+        .not-found__content {
+            width: min(760px, 100%);
+        }
+
+        .not-found__logo {
+            width: min(230px, 70vw);
+            height: auto;
+            margin: 0 auto 22px;
+            display: block;
+        }
+
+        .not-found__code {
+            color: var(--brand-orange);
+            font-size: clamp(5rem, 16vw, 10rem);
+            line-height: .82;
+            text-shadow: 0 6px 0 rgba(255, 255, 255, .95), 0 12px 24px rgba(0, 0, 0, .12);
+        }
+
+        .not-found h1 {
+            margin: 18px 0 12px;
+            color: #174d6b;
+            font-size: clamp(2rem, 6vw, 3.8rem);
+            line-height: 1;
+        }
+
+        .not-found p {
+            width: min(620px, 100%);
+            margin: 0 auto 28px;
+            color: #24566c;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.55;
+        }
+
+        .not-found__actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .not-found__btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 48px;
+            padding: 12px 22px;
+            border-radius: 999px;
+            color: var(--brand-dark);
+            background: var(--brand-orange);
+            border: 3px solid var(--white);
+            box-shadow: 0 7px 0 rgba(0, 0, 0, .14);
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+        }
+
+        .not-found__btn:hover,
+        .not-found__btn:focus {
+            background: var(--brand-turquoise);
+            transform: translateY(-2px);
+            box-shadow: 0 9px 0 rgba(0, 0, 0, .14);
+            outline: none;
+        }
+
+        .not-found__characters {
+            width: min(420px, 92vw);
+            height: auto;
+            margin: 34px auto 0;
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .not-found {
+                min-height: calc(100vh - 86px);
+                padding: 34px 16px 58px;
+            }
+
+            .not-found__actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="GOKidz Asia Home">
+                    <img id="header-logo" src="static-logo.png" alt="GOKidz Asia Logo">
+                </a>
+            </div>
+
+            <button class="menu-toggle" id="mobile-toggle" aria-label="Toggle Navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav>
+                <ul class="nav-links" id="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown" id="vbs-dropdown">
+                        <a href="#">VBS Hub ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Magnitude</a></li>
+                            <li><a href="#">The Mighty God of Jonah</a></li>
+                            <li><a href="#">Ark-mazing Adventure</a></li>
+                            <li><a href="#">Light it Up</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Plus</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="be_one_of_us.html" class="cta-btn">BE ONE OF US!</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="not-found">
+        <section class="not-found__content reveal">
+            <img class="not-found__logo" src="static-logo.png" alt="GOKidz Asia">
+            <div class="not-found__code">404</div>
+            <h1>Page not found</h1>
+            <p>The page you are looking for may have moved or does not exist. Let us take you back to a place that works.</p>
+            <div class="not-found__actions">
+                <a class="not-found__btn" href="index.html"><i class="fa-solid fa-house"></i> Back to Home</a>
+                <a class="not-found__btn" href="about_us.html"><i class="fa-solid fa-users"></i> About Us</a>
+            </div>
+            <img class="not-found__characters" src="3d-characters.png" alt="GOKidz characters">
+        </section>
+    </main>
+
+    <script src="js/shared.js"></script>
+</body>
+</html>
