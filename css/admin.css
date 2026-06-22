@@ -718,6 +718,12 @@ body.admin-portal-page {
     background: #f8ffff;
 }
 
+.asset-preview--dark,
+.asset-preview--dark.has-media {
+    background: #111;
+    color: #fff;
+}
+
 .asset-preview img,
 .asset-preview video,
 .asset-preview iframe {
@@ -727,6 +733,10 @@ body.admin-portal-page {
     border-radius: 6px;
     object-fit: contain;
     background: #fff;
+}
+
+.asset-preview--dark img {
+    background: #111;
 }
 
 .asset-preview iframe {

@@ -597,6 +597,9 @@
             if (!isAssetField(input.dataset.setting) || input.closest('label').querySelector('.asset-preview')) return;
             const preview = document.createElement('div');
             preview.className = 'asset-preview';
+            if (input.dataset.setting.startsWith('home.partners.logos.')) {
+                preview.classList.add('asset-preview--dark');
+            }
             preview.innerHTML = '<span>No preview yet</span>';
             const fileInput = input.closest('label').querySelector('input[type="file"]');
             (fileInput || input).insertAdjacentElement('afterend', preview);
