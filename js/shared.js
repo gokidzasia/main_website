@@ -56,6 +56,75 @@
         revealElements.forEach((element) => revealObserver.observe(element));
     }
 
+    function setupAboutCarousels() {
+        const carouselWraps = document.querySelectorAll('.about-carousel-wrap');
+        if (!carouselWraps.length) return;
+
+        carouselWraps.forEach((wrap) => {
+            const carousel = wrap.querySelector('.about-carousel');
+            const slides = Array.from(wrap.querySelectorAll('.about-slide'));
+            const dots = Array.from(wrap.querySelectorAll('.about-dots a'));
+            if (!carousel || !slides.length || !dots.length) return;
+
+            let animationFrame = null;
+
+            const setActive = (index) => {
+                slides.forEach((slide, slideIndex) => {
+                    slide.classList.toggle('is-active', slideIndex === index);
+                });
+
+                dots.forEach((dot, dotIndex) => {
+                    const isActive = dotIndex === index;
+                    dot.classList.toggle('is-active', isActive);
+                    if (isActive) {
+                        dot.setAttribute('aria-current', 'true');
+                    } else {
+                        dot.removeAttribute('aria-current');
+                    }
+                });
+            };
+
+            const updateActiveFromScroll = () => {
+                const carouselRect = carousel.getBoundingClientRect();
+                const carouselCenter = carouselRect.left + carouselRect.width / 2;
+                let activeIndex = 0;
+                let closestDistance = Infinity;
+
+                slides.forEach((slide, index) => {
+                    const slideRect = slide.getBoundingClientRect();
+                    const slideCenter = slideRect.left + slideRect.width / 2;
+                    const distance = Math.abs(carouselCenter - slideCenter);
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        activeIndex = index;
+                    }
+                });
+
+                setActive(activeIndex);
+            };
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    slides[index]?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                        inline: 'center'
+                    });
+                    setActive(index);
+                });
+            });
+
+            carousel.addEventListener('scroll', () => {
+                if (animationFrame) window.cancelAnimationFrame(animationFrame);
+                animationFrame = window.requestAnimationFrame(updateActiveFromScroll);
+            }, { passive: true });
+
+            window.addEventListener('resize', updateActiveFromScroll);
+            setActive(0);
+        });
+    }
+
     function loadChatbase() {
         if (!window.chatbase || window.chatbase('getState') !== 'initialized') {
             window.chatbase = (...args) => {
@@ -91,6 +160,7 @@
         setupLogoSwap();
         setupMobileNav();
         setupRevealAnimations();
+        setupAboutCarousels();
         loadChatbase();
     });
 })();

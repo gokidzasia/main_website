@@ -1,7 +1,7 @@
 (function () {
     const fallbackStorageKey = 'gokidzAdminDrafts';
     const youtubeStatsRefreshMs = 5 * 60 * 1000;
-    const teamMinimumCounts = { staff: 4, editor: 7, producer: 6, performer: 6 };
+    const teamMinimumCounts = { staff: 4, editor: 7, producer: 6, performer: 6, scriptwriter: 1 };
     const assetKeys = ['favicon', 'Logo', 'Images', 'Video', 'Background', 'thumbnail', 'media', 'image', 'characters', 'footerLogo'];
     const supabaseClient = window.gokidzSupabaseClient?.();
     const supabaseConfig = window.GOKIDZ_SUPABASE;
@@ -210,6 +210,50 @@
     function normalizeGridSettings() {
         document.querySelectorAll('[data-setting^="home.grid"]').forEach((field) => {
             field.dataset.setting = field.dataset.setting.replace(/^home\.grid(\d+)\./, (_, number) => `home.grids.${Number(number) - 1}.`);
+        });
+    }
+
+    function mergeMissing(target, defaults) {
+        if (!defaults || typeof defaults !== 'object') return target;
+        Object.entries(defaults).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+                if (!Array.isArray(target[key])) target[key] = value;
+                return;
+            }
+
+            if (value && typeof value === 'object') {
+                if (!target[key] || typeof target[key] !== 'object' || Array.isArray(target[key])) target[key] = {};
+                mergeMissing(target[key], value);
+                return;
+            }
+
+            if (target[key] === undefined) target[key] = value;
+        });
+        return target;
+    }
+
+    async function ensureAboutContentDefaults() {
+        try {
+            const response = await fetch('data/site-content.json', { cache: 'no-store' });
+            if (!response.ok) return;
+            const defaults = await response.json();
+            if (!defaults?.about?.content) return;
+            if (!content.about || typeof content.about !== 'object') content.about = {};
+            if (!content.about.content || typeof content.about.content !== 'object') content.about.content = {};
+            mergeMissing(content.about.content, defaults.about.content);
+        } catch (error) {
+            // Static defaults are helpful, but not required for editing.
+        }
+    }
+
+    function normalizeAboutContentArrays() {
+        ['mission', 'training', 'plus'].forEach((section) => {
+            const images = getByPath(content, `about.content.${section}.images`);
+            if (!Array.isArray(images)) setByPath(content, `about.content.${section}.images`, []);
+        });
+        ['mission', 'plus'].forEach((section) => {
+            const goals = getByPath(content, `about.content.${section}.goals`);
+            if (!Array.isArray(goals)) setByPath(content, `about.content.${section}.goals`, []);
         });
     }
 
@@ -780,6 +824,8 @@
         setupStatsAutoUpdate();
         if (!await requireAuth()) return;
         await loadContent();
+        await ensureAboutContentDefaults();
+        normalizeAboutContentArrays();
         await loadSiteStats();
         setupYouTubeStats();
         await loadYouTubeStats();

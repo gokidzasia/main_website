@@ -58,6 +58,116 @@
     ]
   },
   "about": {
+    "content": {
+      "intro": {
+        "title": "GOKidz Asia",
+        "paragraph1": "GOKidz Asia (God Online for Kidz) is a dedicated children's channel with a bold vision: to bring life-changing, faith-based content into every home through engaging videos, songs, and stories.",
+        "paragraph2": "Launched in 2020 during the pandemic, GOKidz Asia has grown into a powerful digital ministry. Our content now supports not only children and families but also churches, schools, and community programs. In 2024, we celebrated our 4th anniversary with the YouTube Silver Play Button, a milestone that reflects the thousands of lives already reached and transformed.",
+        "image": "about us/about-hero.png"
+      },
+      "mission": {
+        "kicker": "Our Mission & Goals",
+        "title": "Reaching Children In Their Digital World",
+        "paragraph": "Children today live in a digital world of gamification, video, and interactivity. GOKidz Asia meets them where they are, with content that entertains, educates, and builds strong values.",
+        "goals": [
+          {
+            "title": "Reach Every Child & Home",
+            "text": "spread God's Word and values across all 42,000 barangays in the Philippines."
+          },
+          {
+            "title": "Inspire & Educate",
+            "text": "create videos that build literacy, character, and life skills."
+          },
+          {
+            "title": "Empower Nation Builders",
+            "text": "train and mentor young creators to become future leaders and digital missionaries."
+          },
+          {
+            "title": "Innovate for Impact",
+            "text": "use the latest technology and AI to produce world-class, relevant content."
+          }
+        ],
+        "images": [
+          {
+            "image": "about us/Mission/mission-1.jpg"
+          },
+          {
+            "image": "about us/Mission/mission-2.jpg"
+          },
+          {
+            "image": "about us/Mission/mission-3.jpg"
+          },
+          {
+            "image": "about us/Mission/mission-4.jpg"
+          }
+        ]
+      },
+      "training": {
+        "kicker": "Beyond Videos",
+        "title": "Training & Empowerment",
+        "paragraph": "Behind GOKidz Asia is a passionate, young creative team - writers, editors, musicians, designers, and voice actors. Through our volunteer and training programs, we equip students and young professionals with real-world digital skills, mentorship, and discipleship. Many go on to join our production team, serving God while building their own future.",
+        "images": [
+          {
+            "image": "about us/Training/training-1.jpg"
+          },
+          {
+            "image": "about us/Training/training-2.jpg"
+          },
+          {
+            "image": "about us/Training/training-3.jpg"
+          },
+          {
+            "image": "about us/Training/training-4.jpg"
+          }
+        ]
+      },
+      "plus": {
+        "logo": "about us/gokidz asia plus.png",
+        "title": "Expanding For Families",
+        "paragraph1": "Our vision goes beyond children. With GOKidz Asia Plus, we aim to reach the entire family.",
+        "paragraph2": "Through GOKidz Asia Plus, we are building a digital library of transformational videos designed to bring healing, hope, and guidance to homes across the nation.",
+        "goals": [
+          {
+            "title": "Gamers",
+            "text": "engaging content and positive alternatives for youth struggling with gaming addiction."
+          },
+          {
+            "title": "Parents & Families",
+            "text": "resources on health, parenting, marriage, and family life."
+          },
+          {
+            "title": "Youth",
+            "text": "content that addresses real struggles, equips them with values, and inspires leadership."
+          },
+          {
+            "title": "Community Solutions",
+            "text": "developing materials and curricula that help communities respond to challenges such as parental conflicts, youth issues, and broken family relationships."
+          }
+        ],
+        "images": [
+          {
+            "image": "about us/Plus/plus-1.jpg"
+          },
+          {
+            "image": "about us/Plus/plus-2.jpg"
+          },
+          {
+            "image": "about us/Plus/plus-3.jpg"
+          },
+          {
+            "image": "about us/Plus/plus-4.jpg"
+          }
+        ]
+      },
+      "why": {
+        "kicker": "Why It Matters",
+        "title": "Transforming Lives Through Media",
+        "paragraph1": "GOKidz Asia is not just about media, it's about transforming lives. Our videos are used in homes, schools, literacy programs, and feeding centers, spreading hope and values where they are needed most.",
+        "paragraph2": "By empowering kids and equipping young creators, we are raising a generation of faith-driven, future-ready leaders who will impact families, communities, and the nation.",
+        "paragraph3": "Join us. By partnering with GOKidz Asia, you help us expand our reach, innovate our content, and shape the next generation of changemakers. Together, we can bring light and transformation into every child's world.",
+        "image": "about us/join-us.jpg"
+      }
+    },
     "director": {
       "image": "about us/director.png",
       "name": "Iris Gwyn Abibiason"
@@ -160,6 +270,12 @@
       {
         "image": "about us/performer-6.png",
         "name": "DG Anze Belle"
+      }
+    ],
+    "scriptwriter": [
+      {
+        "image": "about us/earjine.png",
+        "name": "Earjine Mapa"
       }
     ]
   }

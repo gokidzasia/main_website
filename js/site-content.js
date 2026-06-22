@@ -34,7 +34,14 @@
 
     function setImage(selector, src) {
         const element = document.querySelector(selector);
-        if (element && src) element.src = src;
+        if (element && src) {
+            element.hidden = false;
+            element.src = mediaPath(src);
+        }
+    }
+
+    function getByPath(object, path) {
+        return path.split('.').reduce((value, key) => value?.[key], object);
     }
 
     function setMetaContent(selector, content) {
@@ -185,12 +192,31 @@
     function applyAbout(content) {
         if (!content?.about || !document.querySelector('.hill-container')) return;
         const about = content.about;
+        applyAboutPageContent(about.content);
         setImage('.director-card img', about.director?.image);
         setText('.director-card h3', about.director?.name);
         applyTeam('Our Staff', about.staff);
         applyTeam('Video Editors', about.editor);
         applyTeam('Music Production', about.producer);
         applyTeam('Studio Performers', about.performer);
+        applyTeam('Scriptwriters', about.scriptwriter);
+    }
+
+    function applyAboutPageContent(aboutContent) {
+        if (!aboutContent) return;
+
+        document.querySelectorAll('[data-about-field]').forEach((element) => {
+            const value = getByPath(aboutContent, element.dataset.aboutField);
+            if (value !== undefined) element.textContent = value;
+        });
+
+        document.querySelectorAll('[data-about-image]').forEach((image) => {
+            const value = getByPath(aboutContent, image.dataset.aboutImage);
+            if (value) {
+                image.hidden = false;
+                image.src = mediaPath(value);
+            }
+        });
     }
 
     function applyTeam(title, members) {
