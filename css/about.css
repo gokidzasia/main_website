@@ -46,6 +46,14 @@ body {
     min-width: 0;
 }
 
+.about-split.reveal {
+    transform: translateY(34px) scale(.98);
+}
+
+.about-split.reveal.active {
+    transform: translateY(0) scale(1);
+}
+
 .about-split--reverse {
     grid-template-columns: minmax(280px, .88fr) minmax(0, 1.02fr);
 }
@@ -82,7 +90,7 @@ body {
     width: min(340px, 86%);
     height: auto;
     display: block;
-    margin: 0 0 16px;
+    margin: 0 0 6px;
 }
 
 .about-copy h1,
@@ -549,7 +557,7 @@ body {
 
     .about-plus-logo {
         width: min(280px, 88%);
-        margin-bottom: 14px;
+        margin-bottom: 6px;
     }
 
     .about-list li {
