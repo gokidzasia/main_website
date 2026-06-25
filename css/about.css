@@ -20,7 +20,7 @@ body {
 
 .about-story {
     margin-top: -1px;
-    padding: clamp(48px, 7vw, 92px) clamp(18px, 5vw, 72px) clamp(62px, 8vw, 108px);
+    padding: clamp(48px, 7vw, 92px) clamp(18px, 5vw, 72px) clamp(104px, 10vw, 150px);
     background:
         linear-gradient(180deg, rgba(213, 246, 255, .92) 0%, rgba(255, 255, 255, .92) 44%, rgba(221, 247, 255, .95) 100%),
         var(--about-sky-image);
@@ -318,48 +318,33 @@ body {
 .hill-container {
     width: 100%;
     min-height: 100vh;
-    margin-top: -74px;
-    padding: clamp(170px, 18vw, 260px) clamp(20px, 5vw, 72px) 90px;
+    margin-top: -44px;
+    padding: clamp(78px, 7vw, 112px) clamp(20px, 5vw, 72px) 90px;
     text-align: center;
     position: relative;
     overflow: visible;
     isolation: isolate;
     background-color: var(--brand-hill);
-    background-image: var(--about-hill-image);
-    background-size: cover;
-    background-position: top center;
-    background-repeat: no-repeat;
+    background-image: none;
     background-attachment: scroll !important;
 }
 
 .hill-container::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: -92px;
-    width: 100%;
-    height: 180px;
-    background-color: var(--brand-hill);
-    background-image: var(--about-hill-image);
-    background-size: cover;
-    background-position: top center;
-    background-repeat: no-repeat;
+    left: -8%;
+    top: -46px;
+    width: 116%;
+    height: 92px;
+    background: var(--brand-hill);
     background-attachment: scroll !important;
-    border-radius: 50% 50% 0 0 / 82% 82% 0 0;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     z-index: 0;
     pointer-events: none;
 }
 
 .hill-container::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: -1px;
-    width: 100%;
-    height: 150px;
-    background: linear-gradient(180deg, rgba(223, 247, 255, .78) 0%, rgba(223, 247, 255, .28) 35%, rgba(28, 81, 18, 0) 100%);
-    z-index: 0;
-    pointer-events: none;
+    content: none;
 }
 
 .team-container {
@@ -387,7 +372,7 @@ body {
 
 .team-container h2:first-child {
     margin-top: 0;
-    margin-bottom: clamp(92px, 12vw, 160px);
+    margin-bottom: clamp(118px, 11vw, 165px);
 }
 
 .grid-container {
@@ -468,7 +453,7 @@ body {
     }
 
     .about-story {
-        padding: 44px clamp(18px, 5vw, 34px) 68px;
+        padding: 44px clamp(18px, 5vw, 34px) 104px;
     }
 
     .about-story__inner {
@@ -512,17 +497,20 @@ body {
     }
 
     .hill-container {
-        margin-top: -54px;
-        padding: 138px 18px 70px;
+        margin-top: -34px;
+        padding: 78px 18px 70px;
     }
 
     .hill-container::before {
-        top: -70px;
-        height: 128px;
+        left: -8%;
+        top: -36px;
+        width: 116%;
+        height: 72px;
     }
 
     .hill-container::after {
-        height: 118px;
+        top: 0;
+        height: 48px;
     }
 
     .team-container h2 {
@@ -532,7 +520,7 @@ body {
 
     .team-container h2:first-child {
         margin-top: 0;
-        margin-bottom: 86px;
+        margin-bottom: 104px;
     }
 
     .grid-container {
