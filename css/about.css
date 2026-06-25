@@ -54,6 +54,18 @@ body {
     transform: translateY(0) scale(1);
 }
 
+.team-container h2.reveal,
+.director-card.reveal,
+.member-card.reveal {
+    transform: translateY(30px) scale(.96);
+}
+
+.team-container h2.reveal.active,
+.director-card.reveal.active,
+.member-card.reveal.active {
+    transform: translateY(0) scale(1);
+}
+
 .about-split--reverse {
     grid-template-columns: minmax(280px, .88fr) minmax(0, 1.02fr);
 }
@@ -317,7 +329,7 @@ body {
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: scroll !important;
 }
 
 .hill-container::before {
@@ -332,7 +344,7 @@ body {
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: scroll !important;
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     z-index: 0;
     pointer-events: none;
@@ -483,7 +495,7 @@ body {
 
     .hill-container,
     .hill-container::before {
-        background-attachment: scroll;
+        background-attachment: scroll !important;
     }
 
     .hill-container {

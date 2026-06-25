@@ -37,9 +37,7 @@
     }
 
     function setupRevealAnimations() {
-        const revealElements = document.querySelectorAll('.reveal');
-        if (!revealElements.length) return;
-
+        const observedElements = new WeakSet();
         const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -53,7 +51,32 @@
             rootMargin: '0px 0px -20px 0px'
         });
 
-        revealElements.forEach((element) => revealObserver.observe(element));
+        const observeRevealElements = (root = document) => {
+            root.querySelectorAll?.('.reveal').forEach((element) => {
+                if (observedElements.has(element) || element.classList.contains('active')) return;
+                observedElements.add(element);
+                revealObserver.observe(element);
+            });
+        };
+
+        window.gokidzObserveRevealElements = observeRevealElements;
+
+        observeRevealElements();
+
+        const mutationObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (!(node instanceof Element)) return;
+                    if (node.matches('.reveal')) observeRevealElements(node.parentElement || document);
+                    observeRevealElements(node);
+                });
+            });
+        });
+
+        mutationObserver.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
     }
 
     function setupAboutCarousels() {

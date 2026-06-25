@@ -253,9 +253,10 @@
         if (!grid || !grid.classList.contains('grid-container')) return;
 
         grid.innerHTML = '';
-        members.forEach((member) => {
+        members.forEach((member, index) => {
             const card = document.createElement('div');
-            card.className = 'member-card';
+            const delayClass = index % 4 === 1 ? ' delay-100' : index % 4 === 2 ? ' delay-200' : index % 4 === 3 ? ' delay-300' : '';
+            card.className = `member-card reveal${delayClass}`;
             card.innerHTML = `<img src="${member.image || ''}" alt="${member.name || 'Team member'}"><h3>${member.name || ''}</h3>`;
             grid.appendChild(card);
         });
@@ -267,6 +268,7 @@
         applyMain(content);
         applyHome(content);
         applyAbout(content);
+        window.gokidzObserveRevealElements?.();
     });
 })();
 
