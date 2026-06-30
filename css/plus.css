@@ -1,0 +1,451 @@
+body {
+    color: #18334a;
+    background: #071b26;
+}
+
+.plus-hero {
+    min-height: calc(100vh - 86px);
+    display: grid;
+    grid-template-columns: minmax(0, 860px);
+    align-items: center;
+    justify-content: start;
+    gap: clamp(32px, 5vw, 76px);
+    padding: clamp(48px, 7vw, 96px) clamp(22px, 6vw, 88px) clamp(44px, 6vw, 84px);
+    background:
+        linear-gradient(135deg, rgba(10, 45, 69, .92) 0%, rgba(23, 77, 107, .76) 42%, rgba(255, 255, 255, .94) 42.2%, rgba(231, 251, 255, .97) 100%),
+        url('../about us/about-sky-header.png');
+    background-size: cover;
+    background-position: center top;
+    overflow: hidden;
+    position: relative;
+}
+
+.plus-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.plus-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(135deg, rgba(7, 27, 38, .88) 0%, rgba(8, 50, 74, .72) 42%, rgba(231, 251, 255, .62) 100%),
+        linear-gradient(90deg, rgba(126, 224, 214, .16) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(126, 224, 214, .12) 1px, transparent 1px);
+    background-size: auto, 42px 42px, 42px 42px;
+    z-index: 1;
+}
+
+.plus-hero__content,
+.plus-copy,
+.training-copy {
+    min-width: 0;
+}
+
+.plus-hero__content {
+    position: relative;
+    z-index: 2;
+}
+
+.plus-logo {
+    width: min(300px, 82%);
+    height: auto;
+    display: block;
+    margin: 0 0 14px;
+}
+
+.plus-kicker {
+    width: fit-content;
+    margin: 0 0 14px;
+    padding: 9px 17px 10px;
+    color: var(--brand-dark);
+    background: var(--brand-lime);
+    border: 3px solid var(--white);
+    border-radius: 8px;
+    box-shadow: 0 6px 0 rgba(0, 0, 0, .18);
+    text-transform: uppercase;
+    font-size: clamp(.92rem, 1.2vw, 1.05rem);
+    line-height: 1.05;
+}
+
+.plus-hero h1,
+.plus-copy h2,
+.plus-section-title h2,
+.training-copy h2 {
+    margin: 0 0 18px;
+    color: #08324a;
+    font-size: clamp(2.2rem, 5.4vw, 5.1rem);
+    line-height: .95;
+    text-transform: uppercase;
+    text-shadow: 0 3px 0 rgba(126, 224, 214, .55), 0 6px 0 rgba(255, 255, 255, .9);
+}
+
+.plus-copy h2,
+.plus-section-title h2,
+.training-copy h2 {
+    font-size: clamp(1.8rem, 3.6vw, 3.5rem);
+}
+
+.plus-lead,
+.plus-copy p,
+.plus-panel p,
+.quest-card p,
+.season-item p,
+.training-copy p {
+    font-size: clamp(1rem, 1.35vw, 1.18rem);
+    line-height: 1.6;
+}
+
+.plus-lead {
+    max-width: 660px;
+    margin: 0 0 24px;
+}
+
+.mission-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 22px;
+}
+
+.mission-status span {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    color: var(--white);
+    background: rgba(8, 50, 74, .92);
+    border: 2px solid rgba(126, 224, 214, .72);
+    border-radius: 8px;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, .2);
+    font-size: .95rem;
+}
+
+.mission-status i {
+    color: var(--brand-lime);
+}
+
+.plus-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.plus-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 50px;
+    padding: 13px 22px;
+    color: var(--brand-dark);
+    background: var(--brand-orange);
+    border: 3px solid var(--white);
+    border-radius: 8px;
+    box-shadow: 0 7px 0 rgba(0, 0, 0, .14);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.plus-btn:hover,
+.plus-btn:focus {
+    background: var(--brand-turquoise);
+    transform: translateY(-2px);
+    box-shadow: 0 9px 0 rgba(0, 0, 0, .14);
+    outline: none;
+}
+
+.plus-btn--light {
+    background: var(--brand-light-yellow);
+}
+
+.plus-band,
+.plus-columns,
+.plus-objectives,
+.season-section,
+.training-section {
+    padding: clamp(56px, 8vw, 104px) clamp(22px, 6vw, 88px);
+}
+
+.plus-band {
+    display: grid;
+    grid-template-columns: minmax(0, .92fr) minmax(300px, 1.08fr);
+    align-items: center;
+    gap: clamp(30px, 5vw, 70px);
+    background:
+        linear-gradient(135deg, rgba(255, 248, 221, .98), rgba(252, 239, 162, .66)),
+        repeating-linear-gradient(90deg, transparent 0 22px, rgba(255, 191, 96, .15) 22px 24px);
+}
+
+.plus-bubbles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.plus-bubbles div,
+.plus-panel,
+.quest-card,
+.season-item {
+    background: var(--white);
+    border: 3px solid rgba(8, 50, 74, .18);
+    border-radius: 8px;
+    box-shadow: 0 8px 0 rgba(8, 50, 74, .12);
+}
+
+.plus-bubbles div {
+    min-height: 118px;
+    display: grid;
+    place-items: center;
+    gap: 8px;
+    padding: 18px;
+    text-align: center;
+}
+
+.plus-bubbles i,
+.plus-panel i,
+.quest-card i {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    color: var(--brand-dark);
+    background: var(--brand-lime);
+    border: 3px solid var(--white);
+    border-radius: 8px;
+    font-size: 1.5rem;
+    box-shadow: 0 5px 0 rgba(8, 50, 74, .14);
+}
+
+.plus-bubbles span {
+    color: #174d6b;
+    font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+}
+
+.plus-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    background: #08324a;
+}
+
+.plus-panel {
+    padding: clamp(24px, 4vw, 38px);
+    background: #f2fffd;
+    position: relative;
+    overflow: hidden;
+}
+
+.plus-panel::before,
+.quest-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(90deg, var(--brand-turquoise), var(--brand-orange), var(--brand-lime));
+}
+
+.plus-panel i,
+.quest-card i {
+    margin-bottom: 18px;
+}
+
+.plus-panel h2,
+.quest-card h3,
+.season-item h3 {
+    margin: 0 0 12px;
+    color: #174d6b;
+    font-size: clamp(1.45rem, 2.1vw, 2rem);
+    line-height: 1.05;
+}
+
+.plus-objectives {
+    background: var(--white);
+}
+
+.plus-section-title {
+    max-width: 880px;
+    margin: 0 auto clamp(28px, 4vw, 46px);
+    text-align: center;
+}
+
+.plus-section-title .plus-kicker {
+    margin-inline: auto;
+}
+
+.quest-grid {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.quest-card {
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.quest-card:nth-child(2)::before {
+    background: linear-gradient(90deg, var(--brand-orange), var(--brand-light-yellow));
+}
+
+.quest-card:nth-child(3)::before {
+    background: linear-gradient(90deg, #8fc5ff, var(--brand-turquoise));
+}
+
+.quest-card:nth-child(4)::before {
+    background: linear-gradient(90deg, #ff9eb3, var(--brand-orange));
+}
+
+.season-section {
+    background:
+        linear-gradient(180deg, rgba(7, 27, 38, .96), rgba(8, 50, 74, .94)),
+        linear-gradient(90deg, rgba(126, 224, 214, .12) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(126, 224, 214, .1) 1px, transparent 1px);
+    background-size: auto, 38px 38px, 38px 38px;
+    color: var(--white);
+}
+
+.season-section .plus-section-title h2 {
+    color: var(--white);
+    text-shadow: 0 3px 0 rgba(126, 224, 214, .28);
+}
+
+.season-track {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    gap: 16px;
+}
+
+.season-item {
+    display: grid;
+    grid-template-columns: 150px minmax(180px, .52fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 22px;
+    padding: 20px;
+    color: #18334a;
+    border-color: var(--brand-turquoise);
+    box-shadow: 0 8px 0 rgba(126, 224, 214, .28);
+}
+
+.season-item span {
+    width: fit-content;
+    padding: 9px 15px;
+    color: var(--brand-dark);
+    background: var(--brand-orange);
+    border-radius: 8px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.training-section {
+    display: grid;
+    grid-template-columns: minmax(0, .82fr) minmax(320px, 1.18fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+    background:
+        linear-gradient(135deg, rgba(248, 255, 240, .98), rgba(242, 255, 253, .96)),
+        repeating-linear-gradient(135deg, rgba(198, 233, 112, .16) 0 10px, transparent 10px 20px);
+}
+
+.training-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.training-list span {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    color: #174d6b;
+    background: var(--white);
+    border: 3px solid rgba(8, 50, 74, .14);
+    border-radius: 8px;
+    box-shadow: 0 6px 0 rgba(24, 68, 90, .08);
+    font-size: clamp(.95rem, 1.2vw, 1.08rem);
+}
+
+.training-list i {
+    color: var(--brand-orange);
+    font-size: 1.25rem;
+}
+
+@media (max-width: 980px) {
+    .plus-band,
+    .training-section {
+        grid-template-columns: 1fr;
+    }
+
+    .plus-hero {
+        min-height: auto;
+    }
+
+    .plus-columns,
+    .quest-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .season-item {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .plus-hero,
+    .plus-band,
+    .plus-columns,
+    .plus-objectives,
+    .season-section,
+    .training-section {
+        padding-inline: 18px;
+    }
+
+    .plus-hero {
+        padding-top: 36px;
+    }
+
+    .plus-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .plus-btn {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 560px) {
+    .plus-hero h1 {
+        font-size: clamp(2.35rem, 15vw, 3.5rem);
+    }
+
+    .plus-logo {
+        width: min(260px, 88%);
+    }
+
+    .plus-bubbles,
+    .plus-columns,
+    .quest-grid,
+    .training-list {
+        grid-template-columns: 1fr;
+    }
+
+}
