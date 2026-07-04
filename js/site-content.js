@@ -52,14 +52,19 @@
     function mediaPath(src) {
         if (!src) return '';
         if (/^(https?:)?\/\//i.test(src) || src.startsWith('data:')) return src;
-        return src.split('/').map((part) => encodeURIComponent(part)).join('/');
+        const optimizedLocalAssets = {
+            'static-logo.png': 'static-logo-header.png',
+            '3d-characters.png': '3d-characters-small.png'
+        };
+        const mappedSrc = optimizedLocalAssets[src] || src;
+        return mappedSrc.split('/').map((part) => encodeURIComponent(part)).join('/');
     }
 
     function setVideo(selector, src) {
         const video = document.querySelector(selector);
         if (!video || !src) return;
         const finalSrc = mediaPath(src);
-        video.preload = 'auto';
+        video.preload = 'none';
         video.muted = true;
         video.playsInline = true;
         video.controls = false;
@@ -67,12 +72,10 @@
         video.setAttribute('playsinline', '');
         video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
         video.removeAttribute('controls');
-        const source = video.querySelector('source') || document.createElement('source');
-        source.src = finalSrc;
-        source.type = videoType(finalSrc);
-        if (!source.parentElement) video.appendChild(source);
-        video.load();
-        video.play?.().catch(() => {});
+        video.dataset.src = finalSrc;
+        video.querySelectorAll('source').forEach((source) => source.remove());
+        video.dataset.loaded = 'false';
+        window.gokidzObserveLazyVideos?.();
     }
 
     function isVideo(src) {
@@ -98,9 +101,12 @@
 
         const headerLogo = document.getElementById('header-logo');
         if (headerLogo) {
-            if (main.animatedLogo && headerLogo.dataset.static) headerLogo.src = main.animatedLogo;
-            if (main.staticLogo) headerLogo.dataset.static = main.staticLogo;
-            if (!headerLogo.dataset.static && main.staticLogo) headerLogo.src = main.staticLogo;
+            if (main.animatedLogo) headerLogo.dataset.animated = mediaPath(main.animatedLogo);
+            if (main.staticLogo) {
+                const staticLogo = mediaPath(main.staticLogo);
+                headerLogo.dataset.static = staticLogo;
+                headerLogo.src = staticLogo;
+            }
         }
 
         setImage('.footer-brand img', main.footerLogo || main.staticLogo);
@@ -185,7 +191,7 @@
             let video = oldMedia.tagName.toLowerCase() === 'video' ? oldMedia : null;
             if (!video) {
                 video = document.createElement('video');
-                video.className = 'square-media';
+                video.className = 'square-media lazy-video';
                 video.autoplay = true;
                 video.loop = true;
                 video.muted = true;
@@ -193,7 +199,8 @@
                 video.controls = false;
                 oldMedia.replaceWith(video);
             }
-            video.preload = 'auto';
+            video.classList.add('lazy-video');
+            video.preload = 'none';
             video.muted = true;
             video.playsInline = true;
             video.controls = false;
@@ -201,9 +208,10 @@
             video.setAttribute('playsinline', '');
             video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
             video.removeAttribute('controls');
-            video.innerHTML = `<source src="${mediaPath(src)}" type="${videoType(src)}">`;
-            video.load();
-            video.play?.().catch(() => {});
+            video.dataset.src = mediaPath(src);
+            video.dataset.loaded = 'false';
+            video.querySelectorAll('source').forEach((source) => source.remove());
+            window.gokidzObserveLazyVideos?.();
         } else {
             let image = oldMedia.tagName.toLowerCase() === 'img' ? oldMedia : null;
             if (!image) {

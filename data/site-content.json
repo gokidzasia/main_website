@@ -2,10 +2,10 @@
   "main": {
     "favicon": "favicon-baby-face-yellow.png",
     "animatedLogo": "animated-logo.gif",
-    "staticLogo": "static-logo.png",
+    "staticLogo": "static-logo-header.png",
     "thumbnail": "https://gjbgabyvdaqvauctfbzk.supabase.co/storage/v1/object/public/gokidz-assets/admin/gokidz-asia-cover-thumbnail.jpg",
-    "characters": "3d-characters.png",
-    "footerLogo": "static-logo.png",
+    "characters": "3d-characters-small.png",
+    "footerLogo": "static-logo-header.png",
     "footerDescription": "Every Home, Every Child For Christ.",
     "copyright": "© 2026 GOKidz Asia. All Rights Reserved."
   },
