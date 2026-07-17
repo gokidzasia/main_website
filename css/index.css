@@ -20,6 +20,18 @@
     object-position: center;
     display: block;
     will-change: opacity;
+    pointer-events: none;
+}
+
+.hero-video-section video::-webkit-media-controls,
+.hero-video-section video::-webkit-media-controls-panel,
+.hero-video-section video::-webkit-media-controls-play-button,
+.hero-video-section video::-webkit-media-controls-timeline,
+.hero-video-section video::-webkit-media-controls-current-time-display,
+.hero-video-section video::-webkit-media-controls-time-remaining-display {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 .hero-video-section::after {

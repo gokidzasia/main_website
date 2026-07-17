@@ -26,13 +26,13 @@
         source.type = 'video/mp4';
         video.appendChild(source);
         video.dataset.loaded = 'true';
+        video.controls = false;
+        video.removeAttribute('controls');
         video.load();
 
         const playPromise = video.play();
         if (playPromise) {
-            playPromise.catch(() => {
-                video.controls = true;
-            });
+            playPromise.catch(() => {});
         }
     };
 
